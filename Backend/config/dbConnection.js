@@ -1,10 +1,14 @@
 const mongoose = require("mongoose");
 mongoose.set("strictQuery", false);
 
-async function main() {
+async function connectDb() {
   try {
-    await mongoose.connect(process.env.Db_URI);
+    const connectPP = await mongoose.connect(process.env.Db_URI);
+    console.log(connectPP)
+    console.log("Connected to db")
   } catch (err) {
     console.log(err);
   }
 }
+
+module.exports = connectDb;

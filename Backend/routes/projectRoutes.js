@@ -4,7 +4,8 @@ const project = require('../models/projectModel')
 
 // Get all Projects (GET request)
 router.route("/").get( async (req, res) => {
-  res.json({ meassge: "Get all projects" });
+  const projects = await project.find()
+  res.json(projects);
 });
 
 
@@ -16,7 +17,8 @@ router.route("/").post( async (req, res) => {
   if (!name || !urn || !projectName || !githubRepo){
     throw new Error('All fields are mandatory');
   }
-  res.json({ meassge: "Create a project" , data : req.body});
+  const projects = await project.create(req.body)
+  res.json(projects);
 });
 
 
@@ -28,7 +30,8 @@ router.route("/:urn").put( async (req, res) => {
   if (!urn || !websiteLink){
     throw new Error('All fields are mandatory');
   }
-  res.json({ meassge: `Update the project for ${req.params.urn}` });
+  const projects = await project.updateOne(req.body)
+  res.json(projects);
 });
 
 
@@ -40,7 +43,8 @@ router.route("/:urn").delete( async (req, res) => {
   if (!urn){
     throw new Error('Enter your URN number to delete project');
   }
-  res.json({ meassge: `Delete the project for ${req.params.urn}` });
+  const projects = await project.deleteOne(req.body)
+  res.json(projects);
 });
 
 module.exports = router;
