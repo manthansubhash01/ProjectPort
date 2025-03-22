@@ -9,6 +9,4 @@ const projectSchema = mongoose.Schema({
   submittedAt: { type: Date, default: null },
 });
 
-const project = mongoose.model("project", projectSchema);
-
-module.exports = project;
+module.exports = mongoose.model("project", projectSchema);
