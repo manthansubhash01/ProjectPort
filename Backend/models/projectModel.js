@@ -11,4 +11,4 @@ const projectSchema = mongoose.Schema({
   submittedAt: { type: Date, default: null },
 });
 
-module.exports = mongoose.model("project", projectSchema);
+module.exports = mongoose.model("Project", projectSchema);
