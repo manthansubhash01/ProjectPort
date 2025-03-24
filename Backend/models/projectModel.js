@@ -1,14 +1,15 @@
 const mongoose = require("mongoose");
 
 const projectSchema = mongoose.Schema({
-  name: { type: String, require: true },
+  studentName: { type: String, require: true },
   urn: { type: String, require: true },
-  email: { type: String, require: true },
+  collegeEmail: { type: String, require: true },
   projectName: { type: String, require: true },
   projectDescription: { type: String, require: true },
-  githubRepo: { type: String, require: true },
-  websiteLink: { type: String, default: null },
-  submittedAt: { type: Date, default: null },
+  githubLink: { type: String, require: true },
+  hostingLink: { type: String, default: null },
+  submissionDate: { type: Date, default: null },
 });
 
-module.exports = mongoose.model("Project", projectSchema);
+const Project = mongoose.model("Project", projectSchema);
+module.exports = Project

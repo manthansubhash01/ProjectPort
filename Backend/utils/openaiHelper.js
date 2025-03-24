@@ -1,23 +1,23 @@
-const { Configuration, OpenAIApi } = require("openai")
+const { OpenAI } = require("openai");
+require("dotenv").config(); // Load environment variables
 
-// Initialize OpenAI
-const configuration = new Configuration({
+const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
-})
-const openai = new OpenAIApi(configuration)
+});
 
 const checkForDuplicates = async (description, existingProjects) => {
   try {
-    // If there are no existing projects, it can't be a duplicate
-    if (existingProjects.length === 0) {
-      return { isDuplicate: false, suggestions: [] }
+    if (!process.env.OPENAI_API_KEY) {
+      throw new Error("Missing OpenAI API Key");
     }
 
-    // Extract descriptions from existing projects
-    const existingDescriptions = existingProjects.map((project) => project.description)
+    if (existingProjects.length === 0) {
+      return { isDuplicate: false, suggestions: [] };
+    }
 
-    // Use OpenAI to check for similarity and generate suggestions
-    const response = await openai.createChatCompletion({
+    const existingDescriptions = existingProjects.map((project) => project.description);
+
+    const response = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
       messages: [
         {
@@ -30,36 +30,40 @@ const checkForDuplicates = async (description, existingProjects) => {
         },
         {
           role: "user",
-          content: `New project description: "${description}"\n\nExisting project descriptions: ${existingDescriptions.map((desc, i) => `${i + 1}. "${desc}"`).join("\n")}`,
+          content: `New project description: "${description}"\n\nExisting project descriptions:\n${existingDescriptions
+            .map((desc, i) => `${i + 1}. "${desc}"`)
+            .join("\n")}`,
         },
       ],
       temperature: 0.7,
       max_tokens: 500,
-    })
+    });
 
-    const aiResponse = response.data.choices[0].message.content || ""
+    const aiResponse = response?.choices?.[0]?.message?.content || "";
 
-    // Parse the response
-    const isDuplicate = aiResponse.includes("DUPLICATE: true")
+    if (!aiResponse) {
+      console.error("Unexpected API response:", response);
+      return { isDuplicate: false, suggestions: [] };
+    }
 
-    let suggestions = []
+    const isDuplicate = aiResponse.includes("DUPLICATE: true");
+
+    let suggestions = [];
     if (isDuplicate) {
-      const suggestionsMatch = aiResponse.match(/SUGGESTIONS:(.*)/s)
-      if (suggestionsMatch && suggestionsMatch[1]) {
-        suggestions = suggestionsMatch[1]
-          .split(/\d+\./)
+      const match = aiResponse.match(/SUGGESTIONS:(.*)/s);
+      if (match && match[1]) {
+        suggestions = match[1]
+          .split(/\d+\.\s*/)
           .map((s) => s.trim())
-          .filter((s) => s.length > 0)
+          .filter(Boolean);
       }
     }
 
-    return { isDuplicate, suggestions }
+    return { isDuplicate, suggestions };
   } catch (error) {
-    console.error("OpenAI API error:", error)
-    // If there's an error with the OpenAI API, default to allowing the submission
-    return { isDuplicate: false, suggestions: [] }
+    console.error("OpenAI API error:", error);
+    return { isDuplicate: false, suggestions: [] };
   }
-}
+};
 
-module.exports = { checkForDuplicates }
-
+module.exports = { checkForDuplicates };

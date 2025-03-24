@@ -1,5 +1,5 @@
-const Project = require("../models/Project")
-const { checkForDuplicates } = require("../utils/openaiHelper")
+const Project = require("../models/ProjectModel")
+// const { checkForDuplicates } = require("../utils/openaiHelper")
 
 // @desc    Get all projects
 // @route   GET /api/projects
@@ -19,16 +19,16 @@ const getProjects = async (req, res) => {
 // @access  Public
 const registerProject = async (req, res) => {
   try {
-    const { title, description, studentName, urnNumber, collegeEmail, technologies } = req.body
+    const { projectName, projectDescription, studentName, urn, collegeEmail } = req.body
 
     // Validate input
-    if (!title || !description || !studentName || !urnNumber || !collegeEmail || !technologies) {
+    if (!projectName || !projectDescription || !studentName || !urn || !collegeEmail) {
       return res.status(400).json({ message: "Please provide all required fields" })
     }
 
     // Check if URN or email already exists
     const existingProject = await Project.findOne({
-      $or: [{ urnNumber }, { collegeEmail }],
+      $or: [{ urn }, { collegeEmail }],
     })
 
     if (existingProject) {
@@ -38,25 +38,24 @@ const registerProject = async (req, res) => {
     }
 
     // Check for duplicate project ideas
-    const existingProjects = await Project.find({})
-    const { isDuplicate, suggestions } = await checkForDuplicates(description, existingProjects)
+    // const existingProjects = await Project.find({})
+    // const { isDuplicate, suggestions } = await checkForDuplicates(projectDescription, existingProjects)
 
-    if (isDuplicate) {
-      return res.status(409).json({
-        message: "Project idea is too similar to an existing project",
-        isDuplicate: true,
-        suggestions,
-      })
-    }
+    // if (isDuplicate) {
+    //   return res.status(409).json({
+    //     message: "Project idea is too similar to an existing project",
+    //     isDuplicate: true,
+    //     suggestions,
+    //   })
+    // }
 
     // Create project
     const project = await Project.create({
-      title,
-      description,
+      projectName,
+      projectDescription,
       studentName,
-      urnNumber,
+      urn,
       collegeEmail,
-      technologies,
       status: "registered",
     })
 
@@ -72,15 +71,15 @@ const registerProject = async (req, res) => {
 // @access  Public
 const submitProject = async (req, res) => {
   try {
-    const { urnNumber, collegeEmail, githubLink, hostingLink } = req.body
+    const { urn, collegeEmail, githubLink, hostingLink } = req.body
 
     // Validate input
-    if (!urnNumber || !collegeEmail || !githubLink || !hostingLink) {
+    if (!urn || !collegeEmail || !githubLink || !hostingLink) {
       return res.status(400).json({ message: "Please provide all required fields" })
     }
 
     // Find the project by URN and email
-    const project = await Project.findOne({ urnNumber, collegeEmail })
+    const project = await Project.findOne({ urn, collegeEmail })
 
     if (!project) {
       return res.status(404).json({ message: "No registered project found with this URN and email" })
