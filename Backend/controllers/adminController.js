@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken")
 const Admin = require("../models/Admin")
-const Project = require("../models/ProjectModel")
+const Project = require("ProjectPort/Backend/models/projectModel.js")
 // @desc    Auth admin & get token
 // @route   POST /api/admin/login
 // @access  Public

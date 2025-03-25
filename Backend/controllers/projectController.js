@@ -1,4 +1,4 @@
-const Project = require("../models/ProjectModel")
+const Project = require("ProjectPort/Backend/models/projectModel.js")
 // const { checkForDuplicates } = require("../utils/openaiHelper")
 
 // @desc    Get all projects
