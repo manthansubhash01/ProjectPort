@@ -3,7 +3,7 @@ function Registration(){
     return (
         <div>
          <form method="POST">
-          <h1 className="heading"> Project Registration Form</h1>
+          <h1 className="heading">Registration Form</h1>
           <label htmlFor="Username"> Name</label>
           <input type="text" id="Username" required/>
           <br/>
