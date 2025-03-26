@@ -1,34 +1,107 @@
+import { useState } from "react";
 
-function Registration(){
-    return (
+function Registration() {
+  const [formData, setFormData] = useState({
+    name: "",
+    urn: "",
+    email: "",
+    batch: "A",
+    projectName: "",
+    projectDescription: "",
+  });
+
+  const handleSubmit = (ev) => {
+    console.log(ev.target.value);
+    console.log(formData);
+    setFormData({
+      name: "",
+      urn: "",
+      email: "",
+      batch: "A",
+      projectName: "",
+      projectDescription: "",
+    });
+  };
+
+  const handleChange = (ev) => {
+    setFormData({ ...formData, [ev.target.name]: ev.target.value });
+  };
+
+  return (
+    <div>
+      <h2>Register</h2>
+      <form onSubmit={handleSubmit}>
         <div>
-         <form method="POST">
-          <h1 className="heading">Registration Form</h1>
-          <label htmlFor="Username"> Name</label>
-          <input type="text" id="Username" required/>
-          <br/>
-          <label htmlFor="URN">URN</label>
-          <input type="text" id="URN" required/>
-          <label htmlFor="Batch"> Select Batch</label>
-          <select id="Batch" required>
-            <option value="A">A</option>
-            <option value="B">B</option>
-            <option value="C">C</option>
+          <label>Name :</label>
+          <input
+            type="text"
+            placeholder="Enter your name"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            required
+          ></input>
+        </div>
+        <div>
+          <label>Urn :</label>
+          <input
+            type="text"
+            placeholder="2024-A-xxxxxxx"
+            name="urn"
+            value={formData.urn}
+            onChange={handleChange}
+            required
+          ></input>
+        </div>
+        <div>
+          <label>College Email :</label>
+          <input
+            type="email"
+            placeholder="abc.xyz@adypu.edu.in"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+          ></input>
+        </div>
+        <div>
+          <label>Batch :</label>
+          <select
+            name="batch"
+            value={formData.batch}
+            onChange={handleChange}
+            required
+          >
+            <option value="A">Batch A</option>
+            <option value="B">Batch B</option>
+            <option value="C">Batch c</option>
           </select>
-          <br/>
-          <label htmlFor="Project">Project Name:</label>
-          <input id="Project" type="text" required/>
-          <br/>
-          <label htmlFor="description">Project Description</label><textarea id="description" required></textarea>
-          <br/>
-          <button type="submit">submit</button>
-    
-    
-          
-         </form>
-        
-         </div>
-         
-      )
+        </div>
+        <div>
+          <label>Project Name :</label>
+          <input
+            type="text"
+            placeholder="Enter your project name"
+            name="projectName"
+            value={formData.projectName}
+            onChange={handleChange}
+            required
+          ></input>
+        </div>
+        <div>
+          <label>Project Description :</label>
+          <input
+            type="text"
+            placeholder="Enter your project description"
+            name="projectDescription"
+            value={formData.projectDescription}
+            onChange={handleChange}
+            required
+          ></input>
+        </div>
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  );
 }
-export default Registration
+export default Registration;
