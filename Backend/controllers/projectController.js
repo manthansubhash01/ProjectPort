@@ -19,7 +19,7 @@ const getProjects = async (req, res) => {
 // @access  Public
 const registerProject = async (req, res) => {
   try {
-    const { projectName, projectDescription, studentName, urn, collegeEmail } =
+    const { studentName, urn, collegeEmail, batch, projectName, projectDescription } =
       req.body;
 
     // Validate input
@@ -28,7 +28,8 @@ const registerProject = async (req, res) => {
       !projectDescription ||
       !studentName ||
       !urn ||
-      !collegeEmail
+      !collegeEmail ||
+      !batch
     ) {
       return res
         .status(400)
@@ -61,11 +62,12 @@ const registerProject = async (req, res) => {
 
     // Create project
     const project = await Project.create({
-      projectName,
-      projectDescription,
       studentName,
       urn,
       collegeEmail,
+      batch,
+      projectName,
+      projectDescription,
       status: "registered",
     });
 
@@ -81,10 +83,10 @@ const registerProject = async (req, res) => {
 // @access  Public
 const submitProject = async (req, res) => {
   try {
-    const { urn, collegeEmail, githubLink, hostingLink } = req.body;
+    const { studentName, urn, collegeEmail, githubLink, hostingLink } = req.body;
 
     // Validate input
-    if (!urn || !collegeEmail || !githubLink || !hostingLink) {
+    if (!studentName || !urn || !collegeEmail || !githubLink || !hostingLink) {
       return res
         .status(400)
         .json({ message: "Please provide all required fields" });
