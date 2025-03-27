@@ -10,17 +10,40 @@ function Registration() {
     projectDescription: "",
   });
 
-  const handleSubmit = (ev) => {
+  const handleSubmit = async (ev) => {
+    ev.preventDefault();
     console.log(ev.target.value);
     console.log(formData);
-    setFormData({
-      name: "",
-      urn: "",
-      email: "",
-      batch: "A",
-      projectName: "",
-      projectDescription: "",
-    });
+    try {
+        const response = await fetch(
+          "https://projectport-production.up.railway.app/api/projects/register",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              body: JSON.stringify(formData),
+            },
+          }
+        );
+
+        if(!response.ok){
+            throw new Error('Failed to register')
+        }
+
+        const data = await response.json()
+        console.log("Registration Successful")
+        console.log("API Response",data)
+        setFormData({
+          name: "",
+          urn: "",
+          email: "",
+          batch: "A",
+          projectName: "",
+          projectDescription: "",
+        });
+    }catch (err){
+        console.log("Error:", err)
+    }
   };
 
   const handleChange = (ev) => {

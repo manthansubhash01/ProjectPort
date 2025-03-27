@@ -4,19 +4,46 @@ function Submission() {
   const [formData, setFormData] = useState({
     name: "",
     urn: "",
+    email: "",
     githubLink: "",
     hostingLink: "",
   });
 
-  function handleSubmit(ev) {
+  async function handleSubmit(ev) {
+    ev.preventDefault();
     console.log(ev.target.value);
     console.log(formData);
-    setFormData({
+    
+    try {
+        const response = await fetch(
+          "https://projectport-production.up.railway.app/api/projects/submit",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              body: JSON.stringify(formData),
+            },
+          }
+        );
+
+        if(!response.ok){
+            throw new Error('Failed to register')
+        }
+
+        const data = await response.json()
+        console.log("Registration Successful")
+        console.log("API Response",data)
+        setFormData({
       name: "",
       urn: "",
+      email: "",
       githubLink: "",
       hostingLink: "",
     });
+    }catch (err){
+        console.log("Error:", err)
+    }
+
   }
 
   function handleChange(ev) {
@@ -54,6 +81,20 @@ function Submission() {
           </div>
           <div>
             <label className="block text-gray-700 font-medium">
+              College Email :
+            </label>
+            <input
+              type="email"
+              placeholder="abc.xyz@adypu.edu.in"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+              required
+            ></input>
+          </div>
+          <div>
+            <label className="block text-gray-700 font-medium">
               Code Link :
             </label>
             <input
@@ -82,7 +123,8 @@ function Submission() {
           </div>
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white rounded-lg py-2.5 hover:bg-blue-700">
+            className="w-full bg-blue-600 text-white rounded-lg py-2.5 hover:bg-blue-700"
+          >
             Submit
           </button>
         </form>
