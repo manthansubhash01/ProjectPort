@@ -2,9 +2,9 @@ import { useState } from "react";
 
 function Submission() {
   const [formData, setFormData] = useState({
-    name: "",
+    studentName: "",
     urn: "",
-    email: "",
+    collegeEmail: "",
     githubLink: "",
     hostingLink: "",
   });
@@ -34,12 +34,12 @@ function Submission() {
         console.log("Registration Successful")
         console.log("API Response",data)
         setFormData({
-      name: "",
-      urn: "",
-      email: "",
-      githubLink: "",
-      hostingLink: "",
-    });
+          studentName: "",
+          urn: "",
+          collegeEmail: "",
+          githubLink: "",
+          hostingLink: "",
+        });
     }catch (err){
         console.log("Error:", err)
     }
@@ -60,8 +60,8 @@ function Submission() {
             <input
               type="text"
               placeholder="Enter your name"
-              name="name"
-              value={formData.name}
+              name="studentName"
+              value={formData.studentName}
               onChange={handleChange}
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
               required
@@ -86,8 +86,8 @@ function Submission() {
             <input
               type="email"
               placeholder="abc.xyz@adypu.edu.in"
-              name="email"
-              value={formData.email}
+              name="collegeEmail"
+              value={formData.collegeEmail}
               onChange={handleChange}
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
               required

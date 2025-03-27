@@ -2,9 +2,9 @@ import { useState } from "react";
 
 function Registration() {
   const [formData, setFormData] = useState({
-    name: "",
+    studentName: "",
     urn: "",
-    email: "",
+    collegeEmail: "",
     batch: "A",
     projectName: "",
     projectDescription: "",
@@ -34,9 +34,9 @@ function Registration() {
         console.log("Registration Successful")
         console.log("API Response",data)
         setFormData({
-          name: "",
+          studentName: "",
           urn: "",
-          email: "",
+          collegeEmail: "",
           batch: "A",
           projectName: "",
           projectDescription: "",
@@ -62,8 +62,8 @@ function Registration() {
             <input
               type="text"
               placeholder="Enter your name"
-              name="name"
-              value={formData.name}
+              name="studentName"
+              value={formData.studentName}
               onChange={handleChange}
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
               required
@@ -88,8 +88,8 @@ function Registration() {
             <input
               type="email"
               placeholder="abc.xyz@adypu.edu.in"
-              name="email"
-              value={formData.email}
+              name="collegeEmail"
+              value={formData.collegeEmail}
               onChange={handleChange}
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
               required
@@ -139,7 +139,8 @@ function Registration() {
           </div>
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white rounded-lg py-2.5 hover:bg-blue-700">
+            className="w-full bg-blue-600 text-white rounded-lg py-2.5 hover:bg-blue-700"
+          >
             Submit
           </button>
         </form>
