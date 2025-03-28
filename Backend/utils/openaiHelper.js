@@ -38,13 +38,13 @@ async function checkForDuplicates(newProject, existingProjects) {
 
     return {
       DUPLICATE: isDuplicate,
-      MESSAGE: isDuplicate
+      suggestions: isDuplicate
         ? "This project idea already exists. Please choose a different one."
         : "This project idea is unique. You can proceed!",
     };
   } catch (error) {
     console.error("Error calling API:", error.message);
-    return { DUPLICATE: false, MESSAGE: "Error checking for duplicates." };
+    return { DUPLICATE: false, suggestions: "Error checking for duplicates." };
   }
 }
 

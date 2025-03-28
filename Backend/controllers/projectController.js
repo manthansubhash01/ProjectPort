@@ -50,17 +50,17 @@ const registerProject = async (req, res) => {
     const existingProjects = await Project.find({})
     const descriptionList = existingProjects.map((project)=> project.projectDescription)
     console.log(descriptionList)
-    const { isDuplicate, suggestions } = await checkForDuplicates(
+    const { DUPLICATE, suggestions } = await checkForDuplicates(
       projectDescription,
       descriptionList
     );
-    console.log(isDuplicate,suggestions)
-    if (isDuplicate) {
+    console.log(DUPLICATE, suggestions);
+    if (DUPLICATE) {
       return res.status(409).json({
         message: "Project idea is too similar to an existing project",
         isDuplicate: true,
         suggestions,
-      })
+      });
     }
 
     // Create project
