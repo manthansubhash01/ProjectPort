@@ -47,4 +47,4 @@ async function checkForDuplicates(newProject, existingProjects) {
   }
 }
 
-module.exports = checkForDuplicates;
+module.exports = {checkForDuplicates};
