@@ -1,7 +1,7 @@
 const Project = require("../models/project");
-// const { checkForDuplicates } = require("../utils/openaiHelper")
+const { checkForDuplicates } = require("../utils/openaiHelper")
 
-// @desc    Get all projects
+// Get all projects
 // @route   GET /api/projects
 // @access  Public
 const getProjects = async (req, res) => {
@@ -14,22 +14,20 @@ const getProjects = async (req, res) => {
   }
 };
 
-// @desc    Register a new project idea
-// @route   POST /api/projects/register
-// @access  Public
+// Register a new project idea
+//POST /api/projects/register
 const registerProject = async (req, res) => {
   try {
     const { studentName, urn, collegeEmail, batch, projectName, projectDescription } =
       req.body;
 
-    // Validate input
     if (
-      !projectName ||
-      !projectDescription ||
-      !studentName ||
-      !urn ||
-      !collegeEmail ||
-      !batch
+      !(projectName.trim()) ||
+      !(projectDescription.trim()) ||
+      !(studentName.trim()) ||
+      !(urn.trim()) ||
+      !(collegeEmail.trim()) ||
+      !(batch.trim())
     ) {
       return res
         .status(400)
@@ -49,16 +47,16 @@ const registerProject = async (req, res) => {
     }
 
     // Check for duplicate project ideas
-    // const existingProjects = await Project.find({})
-    // const { isDuplicate, suggestions } = await checkForDuplicates(projectDescription, existingProjects)
+    const existingProjects = await Project.find({})
+    const { isDuplicate, suggestions } = await checkForDuplicates(projectDescription, existingProjects)
 
-    // if (isDuplicate) {
-    //   return res.status(409).json({
-    //     message: "Project idea is too similar to an existing project",
-    //     isDuplicate: true,
-    //     suggestions,
-    //   })
-    // }
+    if (isDuplicate) {
+      return res.status(409).json({
+        message: "Project idea is too similar to an existing project",
+        isDuplicate: true,
+        suggestions,
+      })
+    }
 
     // Create project
     const project = await Project.create({
@@ -78,15 +76,14 @@ const registerProject = async (req, res) => {
   }
 };
 
-// @desc    Submit a completed project
-// @route   POST /api/projects/submit
-// @access  Public
+//Submit a completed project
+//POST /api/projects/submit
 const submitProject = async (req, res) => {
   try {
     const { studentName, urn, collegeEmail, githubLink, hostingLink } = req.body;
 
     // Validate input
-    if (!studentName || !urn || !collegeEmail || !githubLink || !hostingLink) {
+    if (!(studentName.trim()) || !(urn.trim()) || !(collegeEmail.trim()) || !(githubLink.trim()) || !(hostingLink.trim())) {
       return res
         .status(400)
         .json({ message: "Please provide all required fields" });
@@ -124,9 +121,8 @@ const submitProject = async (req, res) => {
   }
 };
 
-// @desc    Get project by ID
-// @route   GET /api/projects/:id
-// @access  Public
+//Get project by ID
+//GET /api/projects/:id
 const getProjectById = async (req, res) => {
   try {
     const project = await Project.findById(req.params.id);

@@ -1,69 +1,50 @@
-const { OpenAI } = require("openai");
-require("dotenv").config(); // Load environment variables
+require("dotenv").config();
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+const HF_API_KEY = process.env.HUGGINGFACE_API_KEY;
+if (!HF_API_KEY) {
+  console.error("Missing API Key. Set HUGGINGFACE_API_KEY in .env file.");
+  process.exit(1);
+}
 
-const checkForDuplicates = async (description, existingProjects) => {
+const HF_MODEL = "sentence-transformers/all-MiniLM-L6-v2";
+
+async function checkForDuplicates(newProject, existingProjects) {
   try {
-    if (!process.env.OPENAI_API_KEY) {
-      throw new Error("Missing OpenAI API Key");
-    }
-
-    if (existingProjects.length === 0) {
-      return { isDuplicate: false, suggestions: [] };
-    }
-
-    const existingDescriptions = existingProjects.map((project) => project.description);
-
-    const response = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo",
-      messages: [
-        {
-          role: "system",
-          content: `You are a helpful assistant that checks if a project description is too similar to existing projects. 
-          If it's too similar (more than 70% similar in concept, not just wording), respond with "DUPLICATE: true". 
-          Otherwise, respond with "DUPLICATE: false". 
-          If it's a duplicate, also suggest 3 alternative project ideas that are related but different enough to be unique. 
-          Format these as "SUGGESTIONS: 1. First suggestion, 2. Second suggestion, 3. Third suggestion"`,
+    const response = await fetch(
+      `https://api-inference.huggingface.co/models/${HF_MODEL}`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${HF_API_KEY}`,
+          "Content-Type": "application/json",
         },
-        {
-          role: "user",
-          content: `New project description: "${description}"\n\nExisting project descriptions:\n${existingDescriptions
-            .map((desc, i) => `${i + 1}. "${desc}"`)
-            .join("\n")}`,
-        },
-      ],
-      temperature: 0.7,
-      max_tokens: 500,
-    });
-
-    const aiResponse = response?.choices?.[0]?.message?.content || "";
-
-    if (!aiResponse) {
-      console.error("Unexpected API response:", response);
-      return { isDuplicate: false, suggestions: [] };
-    }
-
-    const isDuplicate = aiResponse.includes("DUPLICATE: true");
-
-    let suggestions = [];
-    if (isDuplicate) {
-      const match = aiResponse.match(/SUGGESTIONS:(.*)/s);
-      if (match && match[1]) {
-        suggestions = match[1]
-          .split(/\d+\.\s*/)
-          .map((s) => s.trim())
-          .filter(Boolean);
+        body: JSON.stringify({
+          inputs: {
+            source_sentence: newProject,
+            sentences: existingProjects,
+          },
+        }),
       }
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
     }
 
-    return { isDuplicate, suggestions };
-  } catch (error) {
-    console.error("OpenAI API error:", error);
-    return { isDuplicate: false, suggestions: [] };
-  }
-};
+    const similarityScores = await response.json();
+    const threshold = 0.7; // 70% similarity
+    const isDuplicate = similarityScores.some((score) => score > threshold);
 
-module.exports = { checkForDuplicates };
+    return {
+      DUPLICATE: isDuplicate,
+      MESSAGE: isDuplicate
+        ? "This project idea already exists. Please choose a different one."
+        : "This project idea is unique. You can proceed!",
+    };
+  } catch (error) {
+    console.error("Error calling API:", error.message);
+    return { DUPLICATE: false, MESSAGE: "Error checking for duplicates." };
+  }
+}
+
+module.exports = checkForDuplicates;
