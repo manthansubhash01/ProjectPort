@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect,useState } from "react";
 
 function Submission() {
   const [formData, setFormData] = useState({
@@ -8,6 +8,19 @@ function Submission() {
     githubLink: "",
     hostingLink: "",
   });
+
+  const [fieldErrors, setFieldErrors] = useState(""); 
+    const [successMessage, setSuccessMessage] = useState(""); 
+     useEffect(() => {
+       if (fieldErrors || successMessage) {
+         const timer = setTimeout(() => {
+           setFieldErrors("");
+           setSuccessMessage("");
+         }, 2000); 
+  
+         return () => clearTimeout(timer); 
+       }
+     }, [fieldErrors, successMessage]);
 
   async function handleSubmit(ev) {
     ev.preventDefault();
@@ -27,12 +40,13 @@ function Submission() {
         );
 
         if(!response.ok){
-            throw new Error('Failed to register')
+            throw new Error('Failed to Submit')
         }
 
         const data = await response.json()
-        console.log("Registration Successful")
+        console.log("Submission Successful")
         console.log("API Response",data)
+        setSuccessMessage("Submission Successful");
         setFormData({
           studentName: "",
           urn: "",
@@ -42,6 +56,7 @@ function Submission() {
         });
     }catch (err){
         console.log("Error:", err)
+        setFieldErrors(err);
     }
 
   }
@@ -128,6 +143,8 @@ function Submission() {
             Submit
           </button>
         </form>
+        {fieldErrors && <p className="text-red-500">{fieldErrors}</p>}
+        {successMessage && <p className="text-green-500">{successMessage}</p>}
       </div>
     </div>
   );
