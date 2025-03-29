@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect,useState } from "react";
 
-function Registration() {
+function Registration() { 
   const [formData, setFormData] = useState({
     studentName: "",
     urn: "",
@@ -10,39 +10,58 @@ function Registration() {
     projectDescription: "",
   });
 
+  // const [error, setError] = useState(""); 
+  const [fieldErrors, setFieldErrors] = useState(""); 
+  const [successMessage, setSuccessMessage] = useState(""); 
+  // let isError = false; 
+   useEffect(() => {
+     if (fieldErrors || successMessage) {
+       const timer = setTimeout(() => {
+         setFieldErrors("");
+         setSuccessMessage("");
+       }, 2000); // 2 seconds
+
+       return () => clearTimeout(timer); // Cleanup function to clear timeout if component re-renders
+     }
+   }, [fieldErrors, successMessage]);
+
   const handleSubmit = async (ev) => {
     ev.preventDefault();
     console.log(ev.target.value);
     console.log(formData);
     try {
-        const response = await fetch(
-          "https://projectport-production.up.railway.app/api/projects/register",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(formData)
-          }
-        );
-
-        if(!response.ok){
-            throw new Error('Failed to register')
+      const response = await fetch(
+        "https://projectport-production.up.railway.app/api/projects/register",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
         }
+      );
+      
+      if (!response.ok) {
+        throw new Error("Failed to register");
+      }
 
-        const data = await response.json()
-        console.log("Registration Successful")
-        console.log("API Response",data)
-        setFormData({
-          studentName: "",
-          urn: "",
-          collegeEmail: "",
-          batch: "A",
-          projectName: "",
-          projectDescription: "",
-        });
-    }catch (err){
-        console.log("Error:", err)
+      const data = await response.json();
+      console.log("Registration Successful");
+      setSuccessMessage("Registration Successful!");
+      console.log("API Response", data);
+      // isError = false
+      setFormData({
+        studentName: "",
+        urn: "",
+        collegeEmail: "",
+        batch: "A",
+        projectName: "",
+        projectDescription: "",
+      });
+    } catch (err) {
+      console.log("Error:", err);
+      setFieldErrors(`${err}`);
+      // isError = true;
     }
   };
 
@@ -144,6 +163,8 @@ function Registration() {
             Submit
           </button>
         </form>
+        {fieldErrors && <p className="text-red-500">{fieldErrors}</p>}
+        {successMessage && <p className="text-green-500">{successMessage}</p>}
       </div>
     </div>
   );
