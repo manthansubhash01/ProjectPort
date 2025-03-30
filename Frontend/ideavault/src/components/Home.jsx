@@ -23,12 +23,12 @@ function Home(){
     }, [])
 
     return (
-      <div className="min-h-screen p-6 flex flex-col items-center justify-center bg-gray-100">
+      <div className="playfair-display min-h-screen p-6 flex flex-col items-center justify-center bg-gray-100">
         <div className="bg-white flex-col justify-center p-20 py-7 rounded-xl shadow-lg w-300">
-          <h1 className="text-3xl text-center font-bold p-10  text-blue-600">
+          <h1 className="text-5xl text-center font-bold p-10  text-blue-600">
             NST WAP Project Submission
           </h1>
-          <div className="bg-blue-500 text-white flex-col justify-center p-20 rounded-xl shadow-lg w-half">
+          <div className="bg-blue-500 text-white text-xl flex-col justify-center p-20 rounded-xl shadow-lg w-half">
             <h2 className="text-xl font-bold mb-4">
               Notice for Project Registration
             </h2>
@@ -67,12 +67,19 @@ function Home(){
               </li>
             </ul>
           </div>
-          <h2 className="text-2xl text-center font-bold p-10  text-blue-600">
+          <h2 className="text-3xl text-center font-bold p-10  text-blue-600">
             Projects
           </h2>
           {loading ? (
             <div className="flex justify-center items-center h-32">
               <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500 border-solid"></div>
+            </div>
+          ) : project.length === 0 ? (
+            <div className="flex justify-center">
+              <img
+                src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn-icons-png.flaticon.com%2F512%2F7465%2F7465691.png&f=1&nofb=1&ipt=b079ccaf7c08b01b347ad461b1e4d04a6b603ec3dc5544b2344b11b7f9a41e24&ipo=images"
+                className="h-75"
+              ></img>
             </div>
           ) : (
             <table className="w-full border-collapse border border-gray-300 shadow-md rounded-lg">

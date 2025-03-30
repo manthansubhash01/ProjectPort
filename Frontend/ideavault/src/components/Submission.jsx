@@ -66,7 +66,7 @@ function Submission() {
   }
 
   return (
-    <div className="h-screen flex items-center justify-center bg-gray-100">
+    <div className="playfair-display h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-lg w-96">
         <h2 className="text-2xl text-center font-bold text-blue-600">Submit</h2>
         <form onSubmit={handleSubmit} className="space-y-5">
