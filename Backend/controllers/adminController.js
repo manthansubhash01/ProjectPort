@@ -1,9 +1,11 @@
 const jwt = require("jsonwebtoken");
 const Admin = require("../models/Admin");
 const Project = require("../models/project");
-// @desc    Auth admin & get token
-// @route   POST /api/admin/login
-// @access  Public
+
+// Private Access
+
+//Auth admin & get token
+//POST /api/admin/login
 const loginAdmin = async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -26,9 +28,8 @@ const loginAdmin = async (req, res) => {
   }
 };
 
-// @desc    Update a project
-// @route   PUT /api/admin/projects/:id
-// @access  Private
+//Update a project
+//PUT /api/admin/projects/:id
 const updateProject = async (req, res) => {
   try {
     const {
@@ -69,9 +70,8 @@ const updateProject = async (req, res) => {
   }
 };
 
-// @desc    Delete a project
-// @route   DELETE /api/admin/projects/:id
-// @access  Private
+//Delete a project
+//DELETE /api/admin/projects/:id
 const deleteProject = async (req, res) => {
   try {
     const project = await Project.findById(req.params.id);

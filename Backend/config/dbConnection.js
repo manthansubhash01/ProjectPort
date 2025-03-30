@@ -3,11 +3,10 @@ mongoose.set("strictQuery", false);
 
 async function connectDb() {
   try {
-    const connectPP = await mongoose.connect(process.env.Db_URI);
-    console.log(connectPP)
+    await mongoose.connect(process.env.Db_URI);
     console.log("Connected to db")
   } catch (err) {
-    console.log(err);
+    console.error("Database connection error:", err);
   }
 }
 
