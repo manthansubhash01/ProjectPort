@@ -1,4 +1,5 @@
 import { useEffect,useState } from "react"
+import {motion} from "framer-motion"
 
 function Home(){
     const [project,setProject] = useState([])
@@ -21,16 +22,38 @@ function Home(){
         } 
         getProjectData();
     }, [])
+    const heading = "NST WAP Project Submission";
+    const letters = heading.split("");
+    console.log(letters)
 
     return (
       <div className="work-sans min-h-screen p-25 flex flex-col items-center justify-center bg-black">
         <div className="relative">
           <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl blur opacity-10xl"></div>
           <div className="bg-black flex-col justify-center p-20 rounded-xl shadow-lg w-300 relative leading-none">
-            <h1 className="text-5xl text-center font-bold p-10  text-white">
-              NST WAP Project Submission
-            </h1>
-            <div className="bg-[#111017] text-gray-400 text-xl flex-col justify-center p-20 rounded-xl shadow-lg w-half">
+            <div className="flex justify-center p-10">
+              {letters.map((letter, index) => (
+                <motion.h1
+                  key={index}
+                  initial={{ filter: "blur(10px)", opacity: 0, y: 12 }}
+                  animate={{ filter: "blur(0px)", opacity: 1, y: 1 }}
+                  transition={{ duration: 0.5, delay: 0.1 * index }}
+                  className="inline-block text-5xl text-center font-bold z-10  text-white"
+                >
+                  {letter === " " ? "\u00A0" : letter}
+                </motion.h1>
+              ))}
+            </div>
+            <motion.div
+              initial={{ y: 150, opacity: 0 }}
+              animate={{ y: 10, opacity: 1 }}
+              transition={{
+                duration: 1,
+                delay: 0.5,
+                ease: [0, 0.71, 0.2, 1.01],
+              }}
+              className="bg-[#111017] text-gray-400 text-xl flex-col justify-center p-20 rounded-xl shadow-lg w-half"
+            >
               <div className="backdrop-blur px-15 py-7">
                 <h2 className="text-xl font-bold mb-4">
                   Notice for Project Registration
@@ -70,10 +93,18 @@ function Home(){
                   </li>
                 </ul>
               </div>
-            </div>
-            <h2 className="text-3xl text-center font-bold p-3 text-white bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg m-15">
+            </motion.div>
+            <motion.h2
+              initial={{ opacity: 0 }}
+              whileInView={{
+                opacity: 1,
+                scale: 1.1,
+                transition: { duration: 1.5 },
+              }}
+              className="text-3xl text-center font-bold p-3 text-white bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg m-15"
+            >
               Projects
-            </h2>
+            </motion.h2>
             {loading ? (
               <div className="flex justify-center items-center h-32">
                 <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500 border-solid"></div>

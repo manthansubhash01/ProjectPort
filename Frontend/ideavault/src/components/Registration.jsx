@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
 function Registration() {
   const [formData, setFormData] = useState({
@@ -71,7 +72,16 @@ function Registration() {
 
   return (
     <div className="work-sans  p-25 flex  items-center justify-center bg-black">
-      <div className="relative">
+      <motion.div
+        initial={{ y: 150, opacity: 0, scale:0 }}
+        animate={{ y: 10, opacity: 1, scale:1.05}}
+        transition={{
+          duration: 1,
+          delay: 0.20,
+          ease: [0, 0.71, 0.2, 1.01],
+        }}
+        className="relative"
+      >
         <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl blur opacity-10xl"></div>
         <div className="bg-black flex-col justify-center p-8 rounded-lg shadow-lg w-96 relative">
           <h2 className="text-2xl text-center font-bold text-white">
@@ -174,7 +184,7 @@ function Registration() {
           {fieldErrors && <p className="text-red-500">{fieldErrors}</p>}
           {successMessage && <p className="text-green-500">{successMessage}</p>}
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }
