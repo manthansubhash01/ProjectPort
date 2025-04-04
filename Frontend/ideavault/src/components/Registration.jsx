@@ -73,11 +73,11 @@ function Registration() {
   return (
     <div className="work-sans  p-25 flex  items-center justify-center bg-black">
       <motion.div
-        initial={{ y: 150, opacity: 0, scale:0 }}
-        animate={{ y: 10, opacity: 1, scale:1.05}}
+        initial={{ y: 150, opacity: 0, scale: 0 }}
+        animate={{ y: 10, opacity: 1, scale: 1.05 }}
         transition={{
           duration: 1,
-          delay: 0.20,
+          delay: 0.2,
           ease: [0, 0.71, 0.2, 1.01],
         }}
         className="relative"
@@ -176,7 +176,7 @@ function Registration() {
             </div>
             <button
               type="submit"
-              className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg py-2.5"
+              className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg py-2.5 hover:scale-105 "
             >
               Submit
             </button>
