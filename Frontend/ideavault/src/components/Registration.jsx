@@ -20,7 +20,7 @@ function Registration() {
       const timer = setTimeout(() => {
         setFieldErrors("");
         setSuccessMessage("");
-      }, 2000); // 2 seconds
+      }, 2000); 
 
       return () => clearTimeout(timer); // Cleanup function to clear timeout if component re-renders
     }
