@@ -1,13 +1,13 @@
 const Project = require("../models/project");
-const { checkForDuplicates } = require("../utils/openaiHelper")
+const { checkForDuplicates } = require("../utils/openaiHelper");
 
 // Get all projects
 // @route   GET /api/projects
 // @access  Public
 const getProjects = async (req, res) => {
   try {
-    const projects = await Project.find({}).sort({ createdAt: -1 });
-    res.json(projects);
+    const projects = await Project.find({}).sort({ createdAt: 1 });
+    res.json(projects.reverse());
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server Error" });
@@ -18,16 +18,22 @@ const getProjects = async (req, res) => {
 //POST /api/projects/register
 const registerProject = async (req, res) => {
   try {
-    const { studentName, urn, collegeEmail, batch, projectName, projectDescription } =
-      req.body;
+    const {
+      studentName,
+      urn,
+      collegeEmail,
+      batch,
+      projectName,
+      projectDescription,
+    } = req.body;
 
     if (
-      !(projectName.trim()) ||
-      !(projectDescription.trim()) ||
-      !(studentName.trim()) ||
-      !(urn.trim()) ||
-      !(collegeEmail.trim()) ||
-      !(batch.trim())
+      !projectName.trim() ||
+      !projectDescription.trim() ||
+      !studentName.trim() ||
+      !urn.trim() ||
+      !collegeEmail.trim() ||
+      !batch.trim()
     ) {
       return res
         .status(400)
@@ -47,9 +53,11 @@ const registerProject = async (req, res) => {
     }
 
     // Check for duplicate project ideas
-    const existingProjects = await Project.find({})
-    const descriptionList = existingProjects.map((project)=> project.projectDescription)
-    console.log(descriptionList)
+    const existingProjects = await Project.find({});
+    const descriptionList = existingProjects.map(
+      (project) => project.projectDescription
+    );
+    console.log(descriptionList);
     const { DUPLICATE, suggestions } = await checkForDuplicates(
       projectDescription,
       descriptionList
@@ -85,10 +93,17 @@ const registerProject = async (req, res) => {
 //POST /api/projects/submit
 const submitProject = async (req, res) => {
   try {
-    const { studentName, urn, collegeEmail, githubLink, hostingLink } = req.body;
+    const { studentName, urn, collegeEmail, githubLink, hostingLink } =
+      req.body;
 
     // Validate input
-    if (!(studentName.trim()) || !(urn.trim()) || !(collegeEmail.trim()) || !(githubLink.trim()) || !(hostingLink.trim())) {
+    if (
+      !studentName.trim() ||
+      !urn.trim() ||
+      !collegeEmail.trim() ||
+      !githubLink.trim() ||
+      !hostingLink.trim()
+    ) {
       return res
         .status(400)
         .json({ message: "Please provide all required fields" });
@@ -98,11 +113,9 @@ const submitProject = async (req, res) => {
     const project = await Project.findOne({ urn, collegeEmail });
 
     if (!project) {
-      return res
-        .status(404)
-        .json({
-          message: "No registered project found with this URN and email",
-        });
+      return res.status(404).json({
+        message: "No registered project found with this URN and email",
+      });
     }
 
     if (project.status === "submitted") {

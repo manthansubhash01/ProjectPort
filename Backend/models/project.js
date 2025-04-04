@@ -10,7 +10,11 @@ const projectSchema = mongoose.Schema({
   githubLink: { type: String, require: true },
   hostingLink: { type: String, default: null },
   status: { type: String, default: null },
-  submissionDate: { type: Date, default: null }
+  submissionDate: { type: Date, default: null },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 const Project = mongoose.model("Project", projectSchema);
