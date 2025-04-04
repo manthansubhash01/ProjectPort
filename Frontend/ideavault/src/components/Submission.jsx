@@ -153,7 +153,9 @@ function Submission() {
             </div>
             <button
               type="submit"
-              className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg py-2.5"
+              className="w-full bg-gray-400 text-white rounded-lg py-2.5"
+              // const submitButtonColor = "bg-gradient-to-r from-blue-600 to-purple-600"
+              disabled
             >
               Submit
             </button>
