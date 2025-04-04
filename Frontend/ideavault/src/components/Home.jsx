@@ -163,7 +163,7 @@ function Home(){
                                 rel="noopener noreferrer"
                               >
                                 <img
-                                  src="../../public/128-1280233_free-files-github-github-white-logo-png-transparent-537501397-removebg-preview.png"
+                                  src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn0.iconfinder.com%2Fdata%2Ficons%2Fshift-logotypes%2F32%2FGithub-512.png&f=1&nofb=1&ipt=d479e7f13e89880b808d958d56a6ca1de0312b99890eb0d912d5f61493280814&ipo=images"
                                   className="h-8"
                                 ></img>
                               </a>
@@ -180,7 +180,7 @@ function Home(){
                                 rel="noopener noreferrer"
                               >
                                 <img
-                                  src="../../public/509-5096184_link-icon-white-link-icon-white-png-transparent-2340915236-removebg-preview.png"
+                                  src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fclipground.com%2Fimages%2Fweb-logo-png-white-7.png&f=1&nofb=1&ipt=21769d6f7ec2e48fe1d3e67579e72dbe489179183870f8101575a0643201bff3&ipo=images"
                                   className="h-8"
                                 ></img>
                               </a>
