@@ -14,13 +14,14 @@ function Registration() {
   // const [error, setError] = useState("");
   const [fieldErrors, setFieldErrors] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [loading, setLoading] = useState(false);
   // let isError = false;
   useEffect(() => {
     if (fieldErrors || successMessage) {
       const timer = setTimeout(() => {
         setFieldErrors("");
         setSuccessMessage("");
-      }, 2000); 
+      }, 2000);
 
       return () => clearTimeout(timer); // Cleanup function to clear timeout if component re-renders
     }
@@ -28,8 +29,9 @@ function Registration() {
 
   const handleSubmit = async (ev) => {
     ev.preventDefault();
-    console.log(ev.target.value);
-    console.log(formData);
+    // console.log(ev.target.value);
+    // console.log(formData);
+    setLoading(true);
     try {
       const response = await fetch(
         "https://projectport-production.up.railway.app/api/projects/register",
@@ -49,7 +51,7 @@ function Registration() {
       const data = await response.json();
       console.log("Registration Successful");
       setSuccessMessage("Registration Successful!");
-      console.log("API Response", data);
+      // console.log("API Response", data);
       // isError = false
       setFormData({
         studentName: "",
@@ -63,6 +65,8 @@ function Registration() {
       console.log("Error:", err);
       setFieldErrors(`${err}`);
       // isError = true;
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -176,9 +180,12 @@ function Registration() {
             </div>
             <button
               type="submit"
-              className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg py-2.5 hover:scale-105"
+              className={`w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg py-2.5 hover:scale-105 ${
+                loading ? "opacity-50 cursor-not-allowed" : "hover:scale-105"
+              } `}
+              disabled={loading}
             >
-              Submit
+              {loading ? "Loading..." : "Submit"}
             </button>
           </form>
           {fieldErrors && <p className="text-red-500">{fieldErrors}</p>}
