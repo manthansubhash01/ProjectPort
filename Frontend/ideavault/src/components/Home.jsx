@@ -13,7 +13,7 @@ function Home(){
                 throw new Error("Fail to get project data");
                 }
                 const data = await response.json()
-                setProject(data)
+                setProject(data.reverse())
             }catch(err){
                 console.log(err)
             }finally{
