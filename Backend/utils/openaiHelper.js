@@ -33,7 +33,7 @@ async function checkForDuplicates(newProject, existingProjects) {
 
     const similarityScores = await response.json();
     console.log(similarityScores)
-    const threshold = 0.50; // 75% similarity
+    const threshold = 0.60; // 60% similarity
     const isDuplicate = similarityScores.some((score) => score > threshold);
 
     return {
