@@ -15,13 +15,15 @@ function Registration() {
   const [fieldErrors, setFieldErrors] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [duplicateSuggestions, setDuplicateSuggestions] = useState([]);
   // let isError = false;
   useEffect(() => {
     if (fieldErrors || successMessage) {
       const timer = setTimeout(() => {
         setFieldErrors("");
         setSuccessMessage("");
-      }, 2000);
+        setDuplicateSuggestions("");
+      }, 3000);
 
       return () => clearTimeout(timer); // Cleanup function to clear timeout if component re-renders
     }
@@ -43,16 +45,22 @@ function Registration() {
           body: JSON.stringify(formData),
         }
       );
-
+      const data = await response.json();
       if (!response.ok) {
-        throw new Error("Failed to register");
+        // throw new Error("Failed to register",data.message);
+        setFieldErrors(data.message || "Failed to register");
+        setDuplicateSuggestions(data.suggestions || "");
+        setSuccessMessage("");
+
       }
 
-      const data = await response.json();
+      else{
       console.log("Registration Successful");
-      setSuccessMessage("Registration Successful!");
+      setSuccessMessage("Registration Successful!",data.message);
       // console.log("API Response", data);
       // isError = false
+      setFieldErrors("");
+      setDuplicateSuggestions("");
       setFormData({
         studentName: "",
         urn: "",
@@ -60,10 +68,11 @@ function Registration() {
         batch: "A",
         projectName: "",
         projectDescription: "",
-      });
+      });}
     } catch (err) {
       console.log("Error:", err);
-      setFieldErrors(`${err}`);
+      setFieldErrors("Server Error. Please try again.");
+      setDuplicateSuggestions("");
       // isError = true;
     } finally {
       setLoading(false);
@@ -190,6 +199,7 @@ function Registration() {
           </form>
           {fieldErrors && <p className="text-red-500">{fieldErrors}</p>}
           {successMessage && <p className="text-green-500">{successMessage}</p>}
+          {duplicateSuggestions && <p className="text-yellow-500">{duplicateSuggestions}</p>}
         </div>
       </motion.div>
     </div>
