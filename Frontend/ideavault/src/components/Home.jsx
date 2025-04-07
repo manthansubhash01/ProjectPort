@@ -122,6 +122,9 @@ function Home(){
                   <thead>
                     <tr className="bg-[#0A0819] text-gray-200">
                       <th className="border border-gray-300 px-4 py-2">
+                        Sr No.
+                      </th>
+                      <th className="border border-gray-300 px-4 py-2">
                         Full Name
                       </th>
                       <th className="border border-gray-300 px-4 py-2">
@@ -142,9 +145,12 @@ function Home(){
                     </tr>
                   </thead>
                   <tbody>
-                    {project.map((projectObj) => {
+                    {project.map((projectObj,index) => {
                       return (
                         <tr className="bg-black text-center">
+                          <td className="border border-gray-300 px-4 py-2">
+                            {index+1}
+                          </td>
                           <td className="border border-gray-300 px-4 py-2">
                             {projectObj.studentName}
                           </td>
