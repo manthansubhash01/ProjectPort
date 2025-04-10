@@ -1,5 +1,6 @@
 import { useEffect,useState } from "react"
 import {motion} from "framer-motion"
+import Deadline from "./Deadline";
 
 function Home(){
     const [project,setProject] = useState([])
@@ -30,7 +31,7 @@ function Home(){
       <div className="work-sans min-h-screen p-25 flex flex-col items-center justify-center bg-black">
         <div className="relative">
           <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl blur opacity-10xl"></div>
-          <div className="bg-black flex-col justify-center p-20 rounded-xl shadow-lg w-300 relative leading-none">
+          <div className="bg-black flex-col justify-center p-18 rounded-xl shadow-lg w-300 relative leading-none">
             <div className="flex justify-center p-10">
               {letters.map((letter, index) => (
                 <motion.h1
@@ -54,6 +55,10 @@ function Home(){
               }}
               className="bg-[#111017] text-gray-400 text-xl flex-col justify-center p-20 rounded-xl shadow-lg w-half"
             >
+              <Deadline
+                label="Registration Deadline"
+                deadline={"2025-04-11T18:29:00.000+00:00"}
+              />
               <div className="backdrop-blur px-15 py-7">
                 <h2 className="text-xl font-bold mb-4">
                   Notice for Project Registration
@@ -101,7 +106,7 @@ function Home(){
                 scale: 1.1,
                 transition: { duration: 1.5 },
               }}
-              className="text-3xl text-center font-bold p-3 text-white bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg m-15"
+              className="text-3xl text-center font-bold p-3 text-white bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg m-10"
             >
               Projects
             </motion.h2>
@@ -145,11 +150,11 @@ function Home(){
                     </tr>
                   </thead>
                   <tbody>
-                    {project.map((projectObj,index) => {
+                    {project.map((projectObj, index) => {
                       return (
                         <tr className="bg-black text-center">
                           <td className="border border-gray-300 px-4 py-2">
-                            {index+1}
+                            {index + 1}
                           </td>
                           <td className="border border-gray-300 px-4 py-2">
                             {projectObj.studentName}
