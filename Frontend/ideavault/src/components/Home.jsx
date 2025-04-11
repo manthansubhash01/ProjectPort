@@ -57,7 +57,7 @@ function Home(){
             >
               <Deadline
                 label="Registration Deadline"
-                deadline={"2025-04-11T18:29:00.000+00:00"}
+                deadline={"2025-04-11T18:50:00.000+00:00"}
               />
               <div className="backdrop-blur px-15 py-7">
                 <h2 className="text-xl font-bold mb-4">
