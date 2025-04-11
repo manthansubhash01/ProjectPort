@@ -190,17 +190,19 @@ function Registration() {
             </div>
             <button
               type="submit"
-              className={`w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg py-2.5 hover:scale-105 ${
+              className={`w-full bg-gray-400 text-white rounded-lg py-2.5 hover:scale-105 ${
                 loading ? "opacity-50 cursor-not-allowed" : "hover:scale-105"
               } `}
-              disabled={loading}
+              disabled={true}
             >
               {loading ? "Loading..." : "Submit"}
             </button>
           </form>
           {fieldErrors && <p className="text-red-500">{fieldErrors}</p>}
           {successMessage && <p className="text-green-500">{successMessage}</p>}
-          {duplicateSuggestions && <p className="text-yellow-500">{duplicateSuggestions}</p>}
+          {duplicateSuggestions && (
+            <p className="text-yellow-500">{duplicateSuggestions}</p>
+          )}
         </div>
       </motion.div>
     </div>
