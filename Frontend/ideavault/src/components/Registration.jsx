@@ -190,10 +190,10 @@ function Registration() {
             </div>
             <button
               type="submit"
-              className={`w-full bg-gray-400 text-white rounded-lg py-2.5 hover:scale-105 ${
+              className={`w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg py-2.5 hover:scale-105 ${
                 loading ? "opacity-50 cursor-not-allowed" : "hover:scale-105"
               } `}
-              disabled={true}
+              disabled={loading}
             >
               {loading ? "Loading..." : "Submit"}
             </button>
