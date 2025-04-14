@@ -12,6 +12,7 @@ function Submission() {
 
   const [fieldErrors, setFieldErrors] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     if (fieldErrors || successMessage) {
       const timer = setTimeout(() => {
@@ -27,7 +28,7 @@ function Submission() {
     ev.preventDefault();
     console.log(ev.target.value);
     console.log(formData);
-
+    setLoading(true);
     try {
       const response = await fetch(
         "https://projectport-production.up.railway.app/api/projects/submit",
@@ -39,25 +40,29 @@ function Submission() {
           body: JSON.stringify(formData),
         }
       );
-
-      if (!response.ok) {
-        throw new Error("Failed to Submit");
-      }
-
       const data = await response.json();
-      console.log("Submission Successful");
-      console.log("API Response", data);
-      setSuccessMessage("Submission Successful");
-      setFormData({
-        studentName: "",
-        urn: "",
-        collegeEmail: "",
-        githubLink: "",
-        hostingLink: "",
-      });
+      if (!response.ok) {
+        // throw new Error("Failed to Submit");
+        setFieldErrors(data.message || "Failed to register");
+        setSuccessMessage("");
+      } else {
+        console.log("Submission Successful");
+        console.log("API Response", data);
+        setSuccessMessage(data.message);
+        setFieldErrors("");
+        setFormData({
+          studentName: "",
+          urn: "",
+          collegeEmail: "",
+          githubLink: "",
+          hostingLink: "",
+        });
+      }
     } catch (err) {
       console.log("Error:", err);
-      setFieldErrors(err);
+      setFieldErrors("Server Error. Please try again.");
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -153,9 +158,10 @@ function Submission() {
             </div>
             <button
               type="submit"
-              className="w-full bg-gray-400 text-white rounded-lg py-2.5"
-              // const submitButtonColor = "bg-gradient-to-r from-blue-600 to-purple-600"
-              disabled
+              className={`w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg py-2.5 hover:scale-105 ${
+                loading ? "opacity-50 cursor-not-allowed" : "hover:scale-105"
+              } `}
+              disabled={loading}
             >
               Submit
             </button>

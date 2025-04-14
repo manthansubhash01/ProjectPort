@@ -14,7 +14,7 @@ function Registration() {
   // const [error, setError] = useState("");
   const [fieldErrors, setFieldErrors] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const [duplicateSuggestions, setDuplicateSuggestions] = useState([]);
   // let isError = false;
   useEffect(() => {
@@ -33,7 +33,7 @@ function Registration() {
     ev.preventDefault();
     // console.log(ev.target.value);
     // console.log(formData);
-    setLoading(true);
+    // setLoading(true);
     try {
       const response = await fetch(
         "https://projectport-production.up.railway.app/api/projects/register",
@@ -75,7 +75,7 @@ function Registration() {
       setDuplicateSuggestions("");
       // isError = true;
     } finally {
-      setLoading(false);
+      // setLoading(false);
     }
   };
 
@@ -190,12 +190,11 @@ function Registration() {
             </div>
             <button
               type="submit"
-              className={`w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg py-2.5 hover:scale-105 ${
-                loading ? "opacity-50 cursor-not-allowed" : "hover:scale-105"
-              } `}
-              disabled={loading}
+              className="w-full bg-gray-400 text-white rounded-lg py-2.5"
+              disabled
             >
-              {loading ? "Loading..." : "Submit"}
+              {/* {loading ? "Loading..." : "Submit"} */}
+              Submit
             </button>
           </form>
           {fieldErrors && <p className="text-red-500">{fieldErrors}</p>}
