@@ -56,8 +56,8 @@ function Home(){
               className="bg-[#111017] text-gray-400 text-xl flex-col justify-center p-20 rounded-xl shadow-lg w-half"
             >
               <Deadline
-                label="Registration Deadline"
-                deadline={"2025-04-11T18:50:00.000+00:00"}
+                label="Submission Deadline"
+                deadline={"2025-05-02T06:30:00.000+00:00"}
               />
               <div className="backdrop-blur px-15 py-7">
                 <h2 className="text-xl font-bold mb-4">
