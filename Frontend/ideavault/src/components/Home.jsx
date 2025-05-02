@@ -57,7 +57,7 @@ function Home(){
             >
               <Deadline
                 label="Submission Deadline"
-                deadline={"2025-05-02T06:30:00.000+00:00"}
+                deadline={"2025-05-02T12:30:00.000Z"}
               />
               <div className="backdrop-blur px-15 py-7">
                 <h2 className="text-xl font-bold mb-4">
