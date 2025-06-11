@@ -23,7 +23,7 @@ function Home(){
         } 
         getProjectData();
     }, [])
-    const heading = "NST WAP Project Submission";
+    const heading = "WAP Project Submission";
     const letters = heading.split("");
     console.log(letters)
 
