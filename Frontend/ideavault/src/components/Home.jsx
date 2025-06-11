@@ -9,7 +9,7 @@ function Home(){
     useEffect(() => {
         async function getProjectData() {
             try {
-                const response = await fetch("https://projectport-production.up.railway.app/api/projects/");
+                const response = await fetch("https://projectport-llf4.onrender.com/api/projects/");
                 if (!response.ok) {
                 throw new Error("Fail to get project data");
                 }
