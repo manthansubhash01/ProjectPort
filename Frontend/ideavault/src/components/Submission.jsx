@@ -31,7 +31,7 @@ function Submission() {
     setLoading(true);
     try {
       const response = await fetch(
-        "https://projectport-production.up.railway.app/api/projects/submit",
+        "https://projectport-llf4.onrender.com/api/projects/submit",
         {
           method: "POST",
           headers: {
