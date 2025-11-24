@@ -71,105 +71,214 @@ function Submission() {
   }
 
   return (
-    <div className="work-sans h-screen flex items-center justify-center bg-black">
-      <motion.div
-        initial={{ y: 150, opacity: 0, scale: 0 }}
-        animate={{ y: 10, opacity: 1, scale: 1.05 }}
-        transition={{
-          duration: 1,
-          delay: 0.5,
-          ease: [0, 0.71, 0.2, 1.01],
-        }}
-        className="relative"
-      >
-        <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl blur opacity-10xl"></div>
-        <div className="bg-black flex-col justify-center p-8 rounded-lg shadow-lg w-96 relative">
-          <h2 className="text-2xl text-center font-bold text-white">Submit</h2>
-          <form onSubmit={handleSubmit} className="space-y-5">
-            <div>
-              <label className="block text-gray-400 font-medium pb-2">
-                Name :
-              </label>
-              <input
-                type="text"
-                placeholder="Enter your name"
-                name="studentName"
-                value={formData.studentName}
-                onChange={handleChange}
-                className="w-full px-4 py-2 text-white  border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-                required
-              ></input>
-            </div>
-            <div>
-              <label className="block text-gray-400 font-medium pb-2">
-                Urn :
-              </label>
-              <input
-                type="text"
-                placeholder="2024-A-xxxxxxx"
-                name="urn"
-                value={formData.urn}
-                onChange={handleChange}
-                className="w-full px-4 py-2 text-white border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-                required
-              ></input>
-            </div>
-            <div>
-              <label className="block text-gray-400 font-medium pb-2">
-                College Email :
-              </label>
-              <input
-                type="email"
-                placeholder="abc.xyz@adypu.edu.in"
-                name="collegeEmail"
-                value={formData.collegeEmail}
-                onChange={handleChange}
-                className="w-full px-4 py-2 text-white border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-                required
-              ></input>
-            </div>
-            <div>
-              <label className="block text-gray-400 font-medium pb-2">
-                Code Link :
-              </label>
-              <input
-                type="url"
-                placeholder="https://github.com/username/repository"
-                name="githubLink"
-                value={formData.githubLink}
-                onChange={handleChange}
-                className="w-full px-4 py-2 text-white border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-                required
-              ></input>
-            </div>
-            <div>
-              <label className="block text-gray-400 font-medium pb-2">
-                Hosting Link :
-              </label>
-              <input
-                type="url"
-                placeholder="https://your-hosting.com/project"
-                name="hostingLink"
-                value={formData.hostingLink}
-                onChange={handleChange}
-                className="w-full px-4 py-2 text-white border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-                required
-              ></input>
-            </div>
-            <button
-              type="submit"
-              className={`w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg py-2.5 hover:scale-105 ${
-                loading ? "opacity-50 cursor-not-allowed" : "hover:scale-105"
-              } `}
-              disabled={true}
+    <div className="work-sans min-h-screen bg-[#1f2124] flex p-4">
+      <div className="w-64 bg-[#2a2b2e] rounded-3xl text-white p-6 shadow-2xl mr-4 flex-shrink-0">
+        <div className="flex items-center gap-3 mb-8">
+          <div className="w-10 h-10 bg-[#fa8029] rounded-xl flex items-center justify-center">
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
             >
-              Submit
-            </button>
-          </form>
-          {fieldErrors && <p className="text-red-500">{fieldErrors}</p>}
-          {successMessage && <p className="text-green-500">{successMessage}</p>}
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+              />
+            </svg>
+          </div>
+          <h1 className="text-xl font-bold">ProjectPort</h1>
         </div>
-      </motion.div>
+
+        <div className="space-y-1">
+          <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 px-3">
+            Menu
+          </h3>
+          <a
+            href="/"
+            className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-[#3a3b3e] text-gray-300 hover:text-white transition-colors"
+          >
+            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+            </svg>
+            <span className="font-medium">Overview</span>
+          </a>
+          <a
+            href="/register"
+            className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-[#3a3b3e] text-gray-300 hover:text-white transition-colors"
+          >
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M12 4v16m8-8H4"
+              />
+            </svg>
+            <span className="font-medium">Register</span>
+          </a>
+          <a
+            href="/submit"
+            className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-[#3a3b3e] text-white transition-colors"
+          >
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+              />
+            </svg>
+            <span className="font-medium">Submit</span>
+          </a>
+        </div>
+      </div>
+
+      <div className="flex-1 bg-white rounded-3xl shadow-2xl overflow-hidden flex items-center justify-center">
+        <div className="w-full max-w-2xl px-8 py-6">
+          <motion.div
+            initial={{ y: 30, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.6 }}
+            className="w-full"
+          >
+            <h2 className="text-3xl font-bold text-[#1f2124] mb-6">
+              Submit Your Project
+            </h2>
+            <form onSubmit={handleSubmit} className="space-y-5">
+              <div>
+                <label className="block text-[#1f2124] font-semibold mb-2 text-sm">
+                  Full Name
+                </label>
+                <input
+                  type="text"
+                  placeholder="Enter your name"
+                  name="studentName"
+                  value={formData.studentName}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 text-[#1f2124] bg-white border-2 border-gray-200 rounded-xl focus:outline-none focus:border-[#fa8029] transition-colors"
+                  required
+                ></input>
+              </div>
+              <div>
+                <label className="block text-[#1f2124] font-semibold mb-2 text-sm">
+                  URN
+                </label>
+                <input
+                  type="text"
+                  placeholder="2024-A-xxxxxxx"
+                  name="urn"
+                  value={formData.urn}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 text-[#1f2124] bg-white border-2 border-gray-200 rounded-xl focus:outline-none focus:border-[#4A90E2] transition-colors"
+                  required
+                ></input>
+              </div>
+              <div>
+                <label className="block text-[#1f2124] font-semibold mb-2 text-sm">
+                  College Email
+                </label>
+                <input
+                  type="email"
+                  placeholder="abc.xyz@adypu.edu.in"
+                  name="collegeEmail"
+                  value={formData.collegeEmail}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 text-[#1f2124] bg-white border-2 border-gray-200 rounded-xl focus:outline-none focus:border-[#4A90E2] transition-colors"
+                  required
+                ></input>
+              </div>
+              <div>
+                <label className="block text-[#1f2124] font-semibold mb-2 text-sm">
+                  GitHub Repository Link
+                </label>
+                <input
+                  type="url"
+                  placeholder="https://github.com/username/repository"
+                  name="githubLink"
+                  value={formData.githubLink}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 text-[#1f2124] bg-white border-2 border-gray-200 rounded-xl focus:outline-none focus:border-[#4A90E2] transition-colors"
+                  required
+                ></input>
+              </div>
+              <div>
+                <label className="block text-[#1f2124] font-semibold mb-2 text-sm">
+                  Live Website Link
+                </label>
+                <input
+                  type="url"
+                  placeholder="https://your-project.vercel.app"
+                  name="hostingLink"
+                  value={formData.hostingLink}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 text-[#1f2124] bg-white border-2 border-gray-200 rounded-xl focus:outline-none focus:border-[#4A90E2] transition-colors"
+                  required
+                ></input>
+              </div>
+              <button
+                type="submit"
+                className={`w-full bg-[#fa8029] hover:bg-[#ff9040] text-white rounded-xl py-3.5 font-semibold transition-all shadow-md hover:shadow-lg ${
+                  loading
+                    ? "opacity-50 cursor-not-allowed"
+                    : "hover:transform hover:scale-[1.02]"
+                }`}
+                disabled={loading}
+              >
+                {loading ? (
+                  <span className="flex items-center justify-center gap-2">
+                    <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                        fill="none"
+                      ></circle>
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      ></path>
+                    </svg>
+                    Submitting...
+                  </span>
+                ) : (
+                  "Submit Project"
+                )}
+              </button>
+            </form>
+            {fieldErrors && (
+              <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-xl">
+                <p className="text-red-600 text-sm font-medium">
+                  {fieldErrors}
+                </p>
+              </div>
+            )}
+            {successMessage && (
+              <div className="mt-4 p-4 bg-green-50 border border-green-200 rounded-xl">
+                <p className="text-green-600 text-sm font-medium">
+                  {successMessage}
+                </p>
+              </div>
+            )}
+          </motion.div>
+        </div>
+      </div>
     </div>
   );
 }

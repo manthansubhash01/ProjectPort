@@ -1,13 +1,12 @@
-import React from 'react'
-import { useState,useEffect } from 'react';
+import React from "react";
+import { useState, useEffect } from "react";
 
 const Deadline = (props) => {
-
   const calculateTimeLeft = () => {
-    const difference  = new Date(props.deadline) - new Date();
-    let timeLeft = {}
+    const difference = new Date(props.deadline) - new Date();
+    let timeLeft = {};
 
-    if (difference > 0){
+    if (difference > 0) {
       timeLeft = {
         days: Math.floor(difference / (1000 * 60 * 60 * 24)),
         hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
@@ -15,9 +14,9 @@ const Deadline = (props) => {
         seconds: Math.floor((difference / 1000) % 60),
       };
     }
-    return timeLeft
-  }
-  
+    return timeLeft;
+  };
+
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
 
   useEffect(() => {
@@ -30,20 +29,62 @@ const Deadline = (props) => {
   const isTimeUp = Object.keys(timeLeft).length === 0;
 
   return (
-    <div className="p-4 w-125 ml-49 mb-5 text-amber-50 text-center bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl shadow-md">
-      <h3 className="text-lg font-semibold inline-block mr-7">{props.label} :</h3>
+    <div className="flex items-center justify-between bg-gradient-to-r from-[#fa8029] to-[#ff9040] text-white rounded-xl p-5 shadow-md">
+      <div className="flex items-center gap-3">
+        <svg
+          className="w-6 h-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
+        </svg>
+        <h3 className="text-lg font-semibold">{props.label}</h3>
+      </div>
       {isTimeUp ? (
-        <p className="text-red-500 font-bold mt-2 inline-block">
-          ⏰ Deadline Passed
-        </p>
+        <div className="flex items-center gap-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-lg">
+          <svg
+            className="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+          <p className="font-bold text-sm">Deadline Passed</p>
+        </div>
       ) : (
-        <p className="text-xl font-mono mt-2 inline-block">
-          {timeLeft.days}d {timeLeft.hours}h {timeLeft.minutes}m{" "}
-          {timeLeft.seconds}s
-        </p>
+        <div className="flex gap-2">
+          <div className="bg-white/20 backdrop-blur-sm px-3 py-2 rounded-lg text-center min-w-[60px]">
+            <div className="text-2xl font-bold">{timeLeft.days}</div>
+            <div className="text-xs opacity-90">Days</div>
+          </div>
+          <div className="bg-white/20 backdrop-blur-sm px-3 py-2 rounded-lg text-center min-w-[60px]">
+            <div className="text-2xl font-bold">{timeLeft.hours}</div>
+            <div className="text-xs opacity-90">Hours</div>
+          </div>
+          <div className="bg-white/20 backdrop-blur-sm px-3 py-2 rounded-lg text-center min-w-[60px]">
+            <div className="text-2xl font-bold">{timeLeft.minutes}</div>
+            <div className="text-xs opacity-90">Mins</div>
+          </div>
+          <div className="bg-white/20 backdrop-blur-sm px-3 py-2 rounded-lg text-center min-w-[60px]">
+            <div className="text-2xl font-bold">{timeLeft.seconds}</div>
+            <div className="text-xs opacity-90">Secs</div>
+          </div>
+        </div>
       )}
     </div>
   );
-}
+};
 
 export default Deadline;
