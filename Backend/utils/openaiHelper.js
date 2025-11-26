@@ -6,12 +6,11 @@ if (!HF_API_KEY) {
   process.exit(1);
 }
 
-const HF_MODEL = "sentence-transformers/all-MiniLM-L6-v2";
+const HF_API = "https://api-inference.huggingface.co/models/manthansubhash01/sbert-stsb-manual";
 
 async function checkForDuplicates(newProject, existingProjects) {
   try {
-    const response = await fetch(
-      `https://api-inference.huggingface.co/models/${HF_MODEL}`,
+    const response = await fetch(HF_API,
       {
         method: "POST",
         headers: {
@@ -33,7 +32,7 @@ async function checkForDuplicates(newProject, existingProjects) {
 
     const similarityScores = await response.json();
     console.log(similarityScores)
-    const threshold = 0.60; // 60% similarity
+    const threshold = 0.65;
     const isDuplicate = similarityScores.some((score) => score > threshold);
 
     return {
