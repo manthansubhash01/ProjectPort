@@ -10,8 +10,8 @@ const HF_API = "https://api-inference.huggingface.co/models/manthansubhash01/sbe
 
 async function checkForDuplicates(newProject, existingProjects) {
   try {
-    const response = await fetch(HF_API,
-      {
+    const requests = existingProjects.map(project =>
+      fetch(HF_API, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${HF_API_KEY}`,
@@ -20,31 +20,32 @@ async function checkForDuplicates(newProject, existingProjects) {
         body: JSON.stringify({
           inputs: {
             source_sentence: newProject,
-            sentences: existingProjects,
-          },
+            sentence: project    
+          }
         }),
-      }
+      }).then(res => res.json())
     );
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
+    const similarityScores = await Promise.all(requests);
 
-    const similarityScores = await response.json();
-    console.log(similarityScores)
+    console.log("Similarity scores:", similarityScores);
+
     const threshold = 0.65;
-    const isDuplicate = similarityScores.some((score) => score > threshold);
+    const isDuplicate = similarityScores.some(score => score > threshold);
 
     return {
       DUPLICATE: isDuplicate,
       suggestions: isDuplicate
         ? "This project idea already exists. Please choose a different one."
         : "This project idea is unique. You can proceed!",
+      scores: similarityScores
     };
+
   } catch (error) {
     console.error("Error calling API:", error.message);
     return { DUPLICATE: false, suggestions: "Error checking for duplicates." };
   }
 }
+
 
 module.exports = {checkForDuplicates};
