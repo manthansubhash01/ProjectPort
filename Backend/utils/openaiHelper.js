@@ -6,7 +6,7 @@ if (!HF_API_KEY) {
   process.exit(1);
 }
 
-const HF_API = "https://api-inference.huggingface.co/models/manthansubhash01/sbert-stsb-manual";
+const HF_API = "https://router.huggingface.co/models/manthansubhash01/sbert-stsb-manual";
 
 async function checkForDuplicates(newProject, existingProjects) {
   try {
@@ -31,7 +31,7 @@ async function checkForDuplicates(newProject, existingProjects) {
     console.log("Similarity scores:", similarityScores);
 
     const threshold = 0.65;
-    const isDuplicate = similarityScores.some(score => score > threshold);
+    const isDuplicate = max(similarityScores) > threshold;
 
     return {
       DUPLICATE: isDuplicate,
