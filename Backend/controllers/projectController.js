@@ -58,16 +58,25 @@ const registerProject = async (req, res) => {
       (project) => project.projectDescription
     );
     console.log(descriptionList);
-    const { DUPLICATE, suggestions } = await checkForDuplicates(
-      projectDescription,
-      descriptionList
-    );
-    console.log(DUPLICATE, suggestions);
-    if (DUPLICATE) {
-      return res.status(409).json({
-        message: "Project idea is too similar to an existing project",
-        isDuplicate: true,
-        suggestions,
+
+    try {
+      const { DUPLICATE, suggestions } = await checkForDuplicates(
+        projectDescription,
+        descriptionList
+      );
+      console.log(DUPLICATE, suggestions);
+      if (DUPLICATE) {
+        return res.status(409).json({
+          message: "Project idea is too similar to an existing project",
+          isDuplicate: true,
+          suggestions,
+        });
+      }
+    } catch (duplicateCheckError) {
+      console.error("Duplicate check failed:", duplicateCheckError.message);
+      return res.status(503).json({
+        message: "Unable to verify project uniqueness. Please try again later.",
+        error: duplicateCheckError.message,
       });
     }
 

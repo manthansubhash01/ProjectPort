@@ -6,11 +6,12 @@ if (!HF_API_KEY) {
   process.exit(1);
 }
 
-const HF_API = "https://router.huggingface.co/manthansubhash01/sbert-stsb-manual";
+const HF_API =
+  "https://router.huggingface.co/manthansubhash01/sbert-stsb-manual";
 
 async function checkForDuplicates(newProject, existingProjects) {
   try {
-    const requests = existingProjects.map(project =>
+    const requests = existingProjects.map((project) =>
       fetch(HF_API, {
         method: "POST",
         headers: {
@@ -20,10 +21,16 @@ async function checkForDuplicates(newProject, existingProjects) {
         body: JSON.stringify({
           inputs: {
             source_sentence: newProject,
-            sentence: project    
-          }
+            sentence: project,
+          },
         }),
-      }).then(res => res.json())
+      }).then(async (res) => {
+        if (!res.ok) {
+          const errorText = await res.text();
+          throw new Error(`API returned ${res.status}: ${errorText}`);
+        }
+        return res.json();
+      })
     );
 
     const similarityScores = await Promise.all(requests);
@@ -38,14 +45,14 @@ async function checkForDuplicates(newProject, existingProjects) {
       suggestions: isDuplicate
         ? "This project idea already exists. Please choose a different one."
         : "This project idea is unique. You can proceed!",
-      scores: similarityScores
+      scores: similarityScores,
     };
-
   } catch (error) {
     console.error("Error calling API:", error.message);
-    return { DUPLICATE: false, suggestions: "Error checking for duplicates." };
+    throw new Error(
+      "Failed to check for duplicate projects. Please try again later."
+    );
   }
 }
 
-
-module.exports = {checkForDuplicates};
+module.exports = { checkForDuplicates };
