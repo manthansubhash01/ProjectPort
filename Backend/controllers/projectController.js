@@ -60,16 +60,15 @@ const registerProject = async (req, res) => {
     console.log(descriptionList);
 
     try {
-      const { DUPLICATE, suggestions } = await checkForDuplicates(
+      const { DUPLICATE } = await checkForDuplicates(
         projectDescription,
         descriptionList
       );
-      console.log(DUPLICATE, suggestions);
+      console.log(DUPLICATE);
       if (DUPLICATE) {
         return res.status(409).json({
           message: "Project idea is too similar to an existing project",
-          isDuplicate: true,
-          suggestions,
+          isDuplicate: DUPLICATE,
         });
       }
     } catch (duplicateCheckError) {
