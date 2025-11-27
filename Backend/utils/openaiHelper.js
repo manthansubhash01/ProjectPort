@@ -6,7 +6,7 @@ if (!HF_API_KEY) {
   process.exit(1);
 }
 
-const HF_API = "https://router.huggingface.co/v1/pipelines/sentence-similarity/manthansubhash01/sbert-stsb-manual";
+const HF_API = "https://router.huggingface.co/manthansubhash01/sbert-stsb-manual";
 
 async function checkForDuplicates(newProject, existingProjects) {
   try {
