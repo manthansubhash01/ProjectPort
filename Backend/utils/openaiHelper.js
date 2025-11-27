@@ -57,15 +57,13 @@ const HF_API =
 
 // module.exports = { checkForDuplicates };
 
-const HF_API_URL = "https://<your-hf-space-name>.hf.space/predict_batch";
-
 async function checkForDuplicates(newIdea, existingIdeas) {
   const payload = {
     newIdea,
     existingIdeas,
   };
 
-  const response = await fetch(HF_API_URL, {
+  const response = await fetch(HF_API, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
