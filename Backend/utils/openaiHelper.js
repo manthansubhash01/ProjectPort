@@ -65,9 +65,21 @@ async function checkForDuplicates(newIdea, existingIdeas) {
     existingIdeas,
   };
 
-  const response = await axios.post(HF_API_URL, payload);
+  const response = await fetch(HF_API_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  });
 
-  const { max_score, scores } = response.data;
+  if (!response.ok) {
+    throw new Error(`HF API Error: ${response.statusText}`);
+  }
+
+  const data = await response.json();
+
+  const { max_score, scores } = data;
 
   return {
     DUPLICATE: max_score >= 0.65,   
