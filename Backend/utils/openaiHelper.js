@@ -7,7 +7,7 @@ if (!HF_API_KEY) {
 }
 
 const HF_API =
-  "https://router.huggingface.co/manthansubhash01/sbert-stsb-manual";
+  "https://router.huggingface.co/v1/manthansubhash01/sbert-stsb-manual";
 
 async function checkForDuplicates(newProject, existingProjects) {
   try {
@@ -38,7 +38,7 @@ async function checkForDuplicates(newProject, existingProjects) {
     console.log("Similarity scores:", similarityScores);
 
     const threshold = 0.65;
-    const isDuplicate = max(similarityScores) > threshold;
+    const isDuplicate = Math.max(similarityScores) > threshold;
 
     return {
       DUPLICATE: isDuplicate,
