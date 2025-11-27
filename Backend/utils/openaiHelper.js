@@ -59,7 +59,7 @@ const HF_API =
 
 const HF_API_URL = "https://<your-hf-space-name>.hf.space/predict_batch";
 
-export async function checkForDuplicates(newIdea, existingIdeas) {
+async function checkForDuplicates(newIdea, existingIdeas) {
   const payload = {
     newIdea,
     existingIdeas,
@@ -73,3 +73,5 @@ export async function checkForDuplicates(newIdea, existingIdeas) {
     DUPLICATE: max_score >= 0.65,   
   };
 }
+
+module.exports = { checkForDuplicates };
