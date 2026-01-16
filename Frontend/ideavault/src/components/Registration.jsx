@@ -11,12 +11,10 @@ function Registration() {
     projectDescription: "",
   });
 
-  // const [error, setError] = useState("");
   const [fieldErrors, setFieldErrors] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [duplicateSuggestions, setDuplicateSuggestions] = useState([]);
-  // let isError = false;
   useEffect(() => {
     if (fieldErrors || successMessage) {
       const timer = setTimeout(() => {
@@ -25,14 +23,12 @@ function Registration() {
         setDuplicateSuggestions("");
       }, 3000);
 
-      return () => clearTimeout(timer); 
+      return () => clearTimeout(timer);
     }
   }, [fieldErrors, successMessage]);
 
   const handleSubmit = async (ev) => {
     ev.preventDefault();
-    // console.log(ev.target.value);
-    // console.log(formData);
     setLoading(true);
     try {
       const response = await fetch(
@@ -53,8 +49,6 @@ function Registration() {
       } else {
         console.log("Registration Successful");
         setSuccessMessage("Registration Successful!", data.message);
-        // console.log("API Response", data);
-        // isError = false
         setFieldErrors("");
         setDuplicateSuggestions("");
         setFormData({
@@ -70,7 +64,6 @@ function Registration() {
       console.log("Error:", err);
       setFieldErrors("Server Error. Please try again.");
       setDuplicateSuggestions("");
-      // isError = true;
     } finally {
       setLoading(false);
     }
@@ -81,8 +74,8 @@ function Registration() {
   };
 
   return (
-    <div className="work-sans min-h-screen bg-[#1f2124] flex p-4">
-      <div className="w-64 bg-[#2a2b2e] rounded-3xl text-white p-6 shadow-2xl mr-4 flex-shrink-0">
+    <div className="work-sans min-h-screen bg-[#1f2124] flex flex-col lg:flex-row gap-3 lg:gap-4 p-3 md:p-4 lg:p-5">
+      <div className="w-full lg:w-64 bg-[#2a2b2e] rounded-3xl text-white p-5 sm:p-6 shadow-2xl flex-shrink-0">
         <div className="flex items-center gap-3 mb-8">
           <div className="w-10 h-10 bg-[#fa8029] rounded-xl flex items-center justify-center">
             <svg
@@ -157,102 +150,110 @@ function Registration() {
       </div>
 
       <div className="flex-1 bg-white rounded-3xl shadow-2xl overflow-hidden flex items-center justify-center">
-        <div className="w-full max-w-2xl px-8 py-6">
+        <div className="w-full max-w-3xl px-4 sm:px-6 py-5 sm:py-6">
           <motion.div
             initial={{ y: 30, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.6 }}
             className="w-full"
           >
-            <h2 className="text-3xl font-bold text-[#1f2124] mb-6">
+            <h2 className="text-2xl sm:text-3xl font-bold text-[#1f2124] mb-2">
               Register Your Project
             </h2>
-            <form onSubmit={handleSubmit} className="space-y-5">
-              <div>
-                <label className="block text-[#1f2124] font-semibold mb-2 text-sm">
-                  Full Name
-                </label>
-                <input
-                  type="text"
-                  placeholder="Enter your name"
-                  name="studentName"
-                  value={formData.studentName}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 text-[#1f2124] bg-white border-2 border-gray-200 rounded-xl focus:outline-none focus:border-[#fa8029] transition-colors"
-                  required
-                ></input>
+            <p className="text-sm text-gray-600 mb-6">
+              Fill in your basic details and project information. All fields are
+              required.
+            </p>
+            <form onSubmit={handleSubmit} className="space-y-5 sm:space-y-6">
+              <div className="grid gap-4 sm:gap-5 md:grid-cols-2">
+                <div className="md:col-span-1">
+                  <label className="block text-[#1f2124] font-semibold mb-2 text-sm">
+                    Full Name
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Enter your name"
+                    name="studentName"
+                    value={formData.studentName}
+                    onChange={handleChange}
+                    className="w-full px-4 py-2.5 text-sm sm:text-base text-[#1f2124] bg-white border border-gray-200 rounded-xl focus:outline-none focus:border-[#fa8029] focus:ring-2 focus:ring-[#fa8029]/20 transition-colors"
+                    required
+                  ></input>
+                </div>
+                <div className="md:col-span-1">
+                  <label className="block text-[#1f2124] font-semibold mb-2 text-sm">
+                    URN
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="2024-A-xxxxxxx"
+                    name="urn"
+                    value={formData.urn}
+                    onChange={handleChange}
+                    className="w-full px-4 py-2.5 text-sm sm:text-base text-[#1f2124] bg-white border border-gray-200 rounded-xl focus:outline-none focus:border-[#fa8029] focus:ring-2 focus:ring-[#fa8029]/20 transition-colors"
+                    required
+                  ></input>
+                </div>
+                <div className="md:col-span-1">
+                  <label className="block text-[#1f2124] font-semibold mb-2 text-sm">
+                    College Email
+                  </label>
+                  <input
+                    type="email"
+                    placeholder="abc.xyz@adypu.edu.in"
+                    name="collegeEmail"
+                    value={formData.collegeEmail}
+                    onChange={handleChange}
+                    className="w-full px-4 py-2.5 text-sm sm:text-base text-[#1f2124] bg-white border border-gray-200 rounded-xl focus:outline-none focus:border-[#fa8029] focus:ring-2 focus:ring-[#fa8029]/20 transition-colors"
+                    required
+                  ></input>
+                </div>
+                <div className="md:col-span-1">
+                  <label className="block text-[#1f2124] font-semibold mb-2 text-sm">
+                    Batch
+                  </label>
+                  <select
+                    name="batch"
+                    value={formData.batch}
+                    onChange={handleChange}
+                    className="w-full px-4 py-2.5 text-sm sm:text-base text-[#1f2124] bg-white border border-gray-200 rounded-xl focus:outline-none focus:border-[#fa8029] focus:ring-2 focus:ring-[#fa8029]/20 transition-colors"
+                    required
+                  >
+                    <option value="A">Batch A</option>
+                    <option value="B">Batch B</option>
+                    <option value="C">Batch C</option>
+                  </select>
+                </div>
               </div>
-              <div>
-                <label className="block text-[#1f2124] font-semibold mb-2 text-sm">
-                  URN
-                </label>
-                <input
-                  type="text"
-                  placeholder="2024-A-xxxxxxx"
-                  name="urn"
-                  value={formData.urn}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 text-[#1f2124] bg-white border-2 border-gray-200 rounded-xl focus:outline-none focus:border-[#fa8029] transition-colors"
-                  required
-                ></input>
-              </div>
-              <div>
-                <label className="block text-[#1f2124] font-semibold mb-2 text-sm">
-                  College Email
-                </label>
-                <input
-                  type="email"
-                  placeholder="abc.xyz@adypu.edu.in"
-                  name="collegeEmail"
-                  value={formData.collegeEmail}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 text-[#1f2124] bg-white border-2 border-gray-200 rounded-xl focus:outline-none focus:border-[#fa8029] transition-colors"
-                  required
-                ></input>
-              </div>
-              <div>
-                <label className="block text-[#1f2124] font-semibold mb-2 text-sm">
-                  Batch
-                </label>
-                <select
-                  name="batch"
-                  value={formData.batch}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 text-[#1f2124] bg-white border-2 border-gray-200 rounded-xl focus:outline-none focus:border-[#fa8029] transition-colors"
-                  required
-                >
-                  <option value="A">Batch A</option>
-                  <option value="B">Batch B</option>
-                  <option value="C">Batch C</option>
-                </select>
-              </div>
-              <div>
-                <label className="block text-[#1f2124] font-semibold mb-2 text-sm">
-                  Project Name
-                </label>
-                <input
-                  type="text"
-                  placeholder="Enter your project name"
-                  name="projectName"
-                  value={formData.projectName}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 text-[#1f2124] bg-white border-2 border-gray-200 rounded-xl focus:outline-none focus:border-[#fa8029] transition-colors"
-                  required
-                ></input>
-              </div>
-              <div>
-                <label className="block text-[#1f2124] font-semibold mb-2 text-sm">
-                  Project Description
-                </label>
-                <textarea
-                  placeholder="Describe your project in detail (minimum 100 characters)"
-                  name="projectDescription"
-                  value={formData.projectDescription}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 text-[#1f2124] bg-white border-2 border-gray-200 rounded-xl focus:outline-none focus:border-[#fa8029] transition-colors min-h-[120px] resize-y"
-                  minLength={100}
-                  required
-                ></textarea>
+              <div className="space-y-5 sm:space-y-6">
+                <div>
+                  <label className="block text-[#1f2124] font-semibold mb-2 text-sm">
+                    Project Name
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Enter your project name"
+                    name="projectName"
+                    value={formData.projectName}
+                    onChange={handleChange}
+                    className="w-full px-4 py-2.5 text-sm sm:text-base text-[#1f2124] bg-white border border-gray-200 rounded-xl focus:outline-none focus:border-[#fa8029] focus:ring-2 focus:ring-[#fa8029]/20 transition-colors"
+                    required
+                  ></input>
+                </div>
+                <div>
+                  <label className="block text-[#1f2124] font-semibold mb-2 text-sm">
+                    Project Description
+                  </label>
+                  <textarea
+                    placeholder="Describe your project in detail (minimum 100 characters)"
+                    name="projectDescription"
+                    value={formData.projectDescription}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 text-sm sm:text-base text-[#1f2124] bg-white border border-gray-200 rounded-xl focus:outline-none focus:border-[#fa8029] focus:ring-2 focus:ring-[#fa8029]/20 transition-colors min-h-[140px] resize-y"
+                    minLength={100}
+                    required
+                  ></textarea>
+                </div>
               </div>
               <button
                 type="submit"

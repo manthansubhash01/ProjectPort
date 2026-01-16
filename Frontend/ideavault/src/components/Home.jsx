@@ -70,20 +70,42 @@ function Home() {
     )
   );
 
-  const ProjectCard = ({ projectObj, index }) => (
+  const ProjectCard = ({ projectObj, index, variant }) => (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, delay: index * 0.05 }}
-      className="bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow border border-gray-100 mb-3"
+      className={`bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-all mb-3 border-l-4 hover:-translate-y-0.5
+        ${
+          variant === "registered"
+            ? "border-l-yellow-400/90 border border-yellow-100 bg-yellow-50/40"
+            : "border-l-green-500/90 border border-green-100 bg-green-50/40"
+        }`}
     >
-      <div className="flex gap-2 mb-3 flex-wrap">
-        <span className="tag tag-orange">Project</span>
-        {projectObj.batch && (
-          <span className="inline-block px-3 py-1 rounded-full text-xs font-medium bg-blue-50 text-blue-600">
-            Batch {projectObj.batch}
-          </span>
-        )}
+      <div className="flex gap-2 mb-3 flex-wrap items-center justify-between">
+        <div className="flex gap-2 flex-wrap items-center">
+          <span className="tag tag-orange">Project</span>
+          {projectObj.batch && (
+            <span className="inline-block px-3 py-1 rounded-full text-xs font-medium bg-blue-50 text-blue-600">
+              Batch {projectObj.batch}
+            </span>
+          )}
+        </div>
+        <span
+          className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-[11px] font-semibold tracking-wide uppercase
+          ${
+            variant === "registered"
+              ? "bg-yellow-100 text-yellow-800"
+              : "bg-green-100 text-green-800"
+          }`}
+        >
+          <span
+            className={`w-1.5 h-1.5 rounded-full ${
+              variant === "registered" ? "bg-yellow-500" : "bg-green-500"
+            }`}
+          ></span>
+          {variant === "registered" ? "Registered" : "Submitted"}
+        </span>
       </div>
 
       <h3 className="font-semibold text-[#1f2124] text-base mb-2 line-clamp-2">
@@ -195,8 +217,8 @@ function Home() {
   );
 
   return (
-    <div className="work-sans min-h-screen bg-white flex p-4">
-      <div className="w-64 bg-[#2a2b2e] rounded-3xl text-white p-6 shadow-2xl mr-4 flex-shrink-0">
+    <div className="work-sans min-h-screen bg-[#f7f7f7] flex flex-col lg:flex-row p-2 sm:p-3 md:p-4 lg:p-5 gap-3 lg:gap-4">
+      <div className="w-full lg:w-64 bg-[#2a2b2e] rounded-3xl text-white p-5 sm:p-6 shadow-2xl flex-shrink-0">
         <div className="flex items-center gap-3 mb-8">
           <div className="w-10 h-10 bg-[#fa8029] rounded-xl flex items-center justify-center">
             <svg
@@ -295,12 +317,24 @@ function Home() {
         </div>
       </div>
 
-      <div className="flex-1 bg-white rounded-3xl overflow-hidden">
-        <div className="px-8 py-6">
+      <div className="flex-1 bg-white rounded-3xl overflow-hidden relative shadow-md w-full">
+        <motion.div
+          aria-hidden="true"
+          className="pointer-events-none absolute -top-24 -left-24 h-64 w-64 rounded-full bg-[#fa8029]/18 blur-3xl"
+          animate={{ y: [0, 24, 0], opacity: [0.7, 1, 0.7] }}
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.div
+          aria-hidden="true"
+          className="pointer-events-none absolute top-40 -right-28 h-72 w-72 rounded-full bg-[#1f2124]/6 blur-3xl"
+          animate={{ y: [0, -28, 0], opacity: [0.5, 0.9, 0.5] }}
+          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <div className="relative z-10 px-4 sm:px-5 lg:px-6 py-4 sm:py-5">
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mb-6"
+            className="mb-5"
           >
             <Deadline
               label="Submission Deadline"
@@ -344,19 +378,19 @@ function Home() {
           </motion.div>
 
           <div>
-            <div className="flex items-center justify-between mb-6">
+            <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between mb-6">
               <h2 className="text-2xl font-bold text-[#1f2124]">
                 All Projects
               </h2>
 
-              <div className="flex items-center gap-3">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-3 w-full md:w-auto">
                 <div className="relative">
                   <input
                     type="text"
                     placeholder="Search projects..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-80 pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#fa8029] focus:border-transparent text-sm"
+                    className="w-full sm:w-72 md:w-80 pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#fa8029] focus:border-transparent text-sm"
                   />
                   <svg
                     className="w-5 h-5 text-gray-400 absolute left-3 top-2.5"
@@ -376,7 +410,7 @@ function Home() {
                 <select
                   value={filterBatch}
                   onChange={(e) => setFilterBatch(e.target.value)}
-                  className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#fa8029] focus:border-transparent text-sm bg-white"
+                  className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#fa8029] focus:border-transparent text-sm bg-white w-full sm:w-auto min-w-[160px]"
                 >
                   <option value="all">All Batches</option>
                   {uniqueBatches.map((batch) => (
@@ -403,15 +437,28 @@ function Home() {
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="bg-gray-50 rounded-xl p-4">
+                <div className="bg-yellow-50/70 border border-yellow-100 rounded-xl p-4">
                   <div className="flex items-center justify-between mb-4">
-                    <h3 className="font-semibold text-gray-900 text-base">
-                      Registered ({registeredProjects.length})
-                    </h3>
+                    <div>
+                      <p className="text-xs font-semibold uppercase tracking-[0.15em] text-yellow-700 mb-1">
+                        Column 1
+                      </p>
+                      <h3 className="font-semibold text-gray-900 text-base flex items-center gap-2">
+                        Registered
+                        <span className="inline-flex items-center justify-center text-[11px] px-2 py-0.5 rounded-full bg-yellow-100 text-yellow-800 font-semibold">
+                          {registeredProjects.length}
+                        </span>
+                      </h3>
+                    </div>
                   </div>
-                  <div className="space-y-3 max-h-[600px] overflow-y-auto">
+                  <div className="space-y-3">
                     {registeredProjects.map((proj, idx) => (
-                      <ProjectCard key={idx} projectObj={proj} index={idx} />
+                      <ProjectCard
+                        key={idx}
+                        projectObj={proj}
+                        index={idx}
+                        variant="registered"
+                      />
                     ))}
                     {registeredProjects.length === 0 && (
                       <div className="text-center py-8 text-gray-400 text-sm">
@@ -420,16 +467,28 @@ function Home() {
                     )}
                   </div>
                 </div>
-
-                <div className="bg-gray-50 rounded-xl p-4">
+                <div className="bg-green-50/70 border border-green-100 rounded-xl p-4">
                   <div className="flex items-center justify-between mb-4">
-                    <h3 className="font-semibold text-gray-900 text-base">
-                      Submitted ({submittedProjects.length})
-                    </h3>
+                    <div>
+                      <p className="text-xs font-semibold uppercase tracking-[0.15em] text-green-700 mb-1">
+                        Column 2
+                      </p>
+                      <h3 className="font-semibold text-gray-900 text-base flex items-center gap-2">
+                        Submitted
+                        <span className="inline-flex items-center justify-center text-[11px] px-2 py-0.5 rounded-full bg-green-100 text-green-800 font-semibold">
+                          {submittedProjects.length}
+                        </span>
+                      </h3>
+                    </div>
                   </div>
-                  <div className="space-y-3 max-h-[600px] overflow-y-auto">
+                  <div className="space-y-3">
                     {submittedProjects.map((proj, idx) => (
-                      <ProjectCard key={idx} projectObj={proj} index={idx} />
+                      <ProjectCard
+                        key={idx}
+                        projectObj={proj}
+                        index={idx}
+                        variant="submitted"
+                      />
                     ))}
                     {submittedProjects.length === 0 && (
                       <div className="text-center py-8 text-gray-400 text-sm">

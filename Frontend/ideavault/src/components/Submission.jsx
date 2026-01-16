@@ -42,7 +42,6 @@ function Submission() {
       );
       const data = await response.json();
       if (!response.ok) {
-        // throw new Error("Failed to Submit");
         setFieldErrors(data.message || "Failed to register");
         setSuccessMessage("");
       } else {
@@ -71,8 +70,8 @@ function Submission() {
   }
 
   return (
-    <div className="work-sans min-h-screen bg-[#1f2124] flex p-4">
-      <div className="w-64 bg-[#2a2b2e] rounded-3xl text-white p-6 shadow-2xl mr-4 flex-shrink-0">
+    <div className="work-sans min-h-screen bg-[#1f2124] flex flex-col lg:flex-row gap-3 lg:gap-4 p-3 md:p-4 lg:p-5">
+      <div className="w-full lg:w-64 bg-[#2a2b2e] rounded-3xl text-white p-5 sm:p-6 shadow-2xl flex-shrink-0">
         <div className="flex items-center gap-3 mb-8">
           <div className="w-10 h-10 bg-[#fa8029] rounded-xl flex items-center justify-center">
             <svg
@@ -147,86 +146,92 @@ function Submission() {
       </div>
 
       <div className="flex-1 bg-white rounded-3xl shadow-2xl overflow-hidden flex items-center justify-center">
-        <div className="w-full max-w-2xl px-8 py-6">
+        <div className="w-full max-w-3xl px-4 sm:px-6 py-5 sm:py-6">
           <motion.div
             initial={{ y: 30, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.6 }}
             className="w-full"
           >
-            <h2 className="text-3xl font-bold text-[#1f2124] mb-6">
+            <h2 className="text-2xl sm:text-3xl font-bold text-[#1f2124] mb-2">
               Submit Your Project
             </h2>
-            <form onSubmit={handleSubmit} className="space-y-5">
-              <div>
-                <label className="block text-[#1f2124] font-semibold mb-2 text-sm">
-                  Full Name
-                </label>
-                <input
-                  type="text"
-                  placeholder="Enter your name"
-                  name="studentName"
-                  value={formData.studentName}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 text-[#1f2124] bg-white border-2 border-gray-200 rounded-xl focus:outline-none focus:border-[#fa8029] transition-colors"
-                  required
-                ></input>
-              </div>
-              <div>
-                <label className="block text-[#1f2124] font-semibold mb-2 text-sm">
-                  URN
-                </label>
-                <input
-                  type="text"
-                  placeholder="2024-A-xxxxxxx"
-                  name="urn"
-                  value={formData.urn}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 text-[#1f2124] bg-white border-2 border-gray-200 rounded-xl focus:outline-none focus:border-[#4A90E2] transition-colors"
-                  required
-                ></input>
-              </div>
-              <div>
-                <label className="block text-[#1f2124] font-semibold mb-2 text-sm">
-                  College Email
-                </label>
-                <input
-                  type="email"
-                  placeholder="abc.xyz@adypu.edu.in"
-                  name="collegeEmail"
-                  value={formData.collegeEmail}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 text-[#1f2124] bg-white border-2 border-gray-200 rounded-xl focus:outline-none focus:border-[#4A90E2] transition-colors"
-                  required
-                ></input>
-              </div>
-              <div>
-                <label className="block text-[#1f2124] font-semibold mb-2 text-sm">
-                  GitHub Repository Link
-                </label>
-                <input
-                  type="url"
-                  placeholder="https://github.com/username/repository"
-                  name="githubLink"
-                  value={formData.githubLink}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 text-[#1f2124] bg-white border-2 border-gray-200 rounded-xl focus:outline-none focus:border-[#4A90E2] transition-colors"
-                  required
-                ></input>
-              </div>
-              <div>
-                <label className="block text-[#1f2124] font-semibold mb-2 text-sm">
-                  Live Website Link
-                </label>
-                <input
-                  type="url"
-                  placeholder="https://your-project.vercel.app"
-                  name="hostingLink"
-                  value={formData.hostingLink}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 text-[#1f2124] bg-white border-2 border-gray-200 rounded-xl focus:outline-none focus:border-[#4A90E2] transition-colors"
-                  required
-                ></input>
+            <p className="text-sm text-gray-600 mb-6">
+              Provide your details and links to your GitHub repository and live
+              deployment so we can verify your submission.
+            </p>
+            <form onSubmit={handleSubmit} className="space-y-5 sm:space-y-6">
+              <div className="grid gap-4 sm:gap-5 md:grid-cols-2">
+                <div className="md:col-span-1">
+                  <label className="block text-[#1f2124] font-semibold mb-2 text-sm">
+                    Full Name
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Enter your name"
+                    name="studentName"
+                    value={formData.studentName}
+                    onChange={handleChange}
+                    className="w-full px-4 py-2.5 text-sm sm:text-base text-[#1f2124] bg-white border border-gray-200 rounded-xl focus:outline-none focus:border-[#fa8029] focus:ring-2 focus:ring-[#fa8029]/20 transition-colors"
+                    required
+                  ></input>
+                </div>
+                <div className="md:col-span-1">
+                  <label className="block text-[#1f2124] font-semibold mb-2 text-sm">
+                    URN
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="2024-A-xxxxxxx"
+                    name="urn"
+                    value={formData.urn}
+                    onChange={handleChange}
+                    className="w-full px-4 py-2.5 text-sm sm:text-base text-[#1f2124] bg-white border border-gray-200 rounded-xl focus:outline-none focus:border-[#fa8029] focus:ring-2 focus:ring-[#fa8029]/20 transition-colors"
+                    required
+                  ></input>
+                </div>
+                <div className="md:col-span-1">
+                  <label className="block text-[#1f2124] font-semibold mb-2 text-sm">
+                    College Email
+                  </label>
+                  <input
+                    type="email"
+                    placeholder="abc.xyz@adypu.edu.in"
+                    name="collegeEmail"
+                    value={formData.collegeEmail}
+                    onChange={handleChange}
+                    className="w-full px-4 py-2.5 text-sm sm:text-base text-[#1f2124] bg-white border border-gray-200 rounded-xl focus:outline-none focus:border-[#fa8029] focus:ring-2 focus:ring-[#fa8029]/20 transition-colors"
+                    required
+                  ></input>
+                </div>
+                <div className="md:col-span-1">
+                  <label className="block text-[#1f2124] font-semibold mb-2 text-sm">
+                    GitHub Repository Link
+                  </label>
+                  <input
+                    type="url"
+                    placeholder="https://github.com/username/repository"
+                    name="githubLink"
+                    value={formData.githubLink}
+                    onChange={handleChange}
+                    className="w-full px-4 py-2.5 text-sm sm:text-base text-[#1f2124] bg-white border border-gray-200 rounded-xl focus:outline-none focus:border-[#fa8029] focus:ring-2 focus:ring-[#fa8029]/20 transition-colors"
+                    required
+                  ></input>
+                </div>
+                <div className="md:col-span-1">
+                  <label className="block text-[#1f2124] font-semibold mb-2 text-sm">
+                    Live Website Link
+                  </label>
+                  <input
+                    type="url"
+                    placeholder="https://your-project.vercel.app"
+                    name="hostingLink"
+                    value={formData.hostingLink}
+                    onChange={handleChange}
+                    className="w-full px-4 py-2.5 text-sm sm:text-base text-[#1f2124] bg-white border border-gray-200 rounded-xl focus:outline-none focus:border-[#fa8029] focus:ring-2 focus:ring-[#fa8029]/20 transition-colors"
+                    required
+                  ></input>
+                </div>
               </div>
               <button
                 type="submit"
